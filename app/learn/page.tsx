@@ -262,22 +262,18 @@ export default function LearnPage() {
             </header>
 
             {/* Content Area */}
-            <div className="p-0">
+            <div className="w-full">
               {selectedLesson ? (
-                <>
-                  {/* Video Player - Full Screen */}
-                  <div className="aspect-video w-full overflow-hidden bg-[#2F3431]">
-                    <iframe
-                      src={selectedLesson.videoUrl}
-                      className="h-full w-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      title={selectedLesson.title}
-                    />
-                  </div>
-                </>
+                <iframe
+                  src={selectedLesson.videoUrl}
+                  className="w-full border-0"
+                  style={{ height: "calc(100vh - 57px)" }}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title={selectedLesson.title}
+                />
               ) : (
-                <div className="flex aspect-video items-center justify-center bg-[#F8F9F7]">
+                <div className="flex items-center justify-center bg-[#F8F9F7]" style={{ height: "calc(100vh - 57px)" }}>
                   <div className="text-center">
                     <PlayCircle className="mx-auto mb-4 h-16 w-16 text-[#9AA19B]" />
                     <p className="text-[#5F6661]">
