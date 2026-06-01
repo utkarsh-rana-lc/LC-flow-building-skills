@@ -99,12 +99,13 @@ export function Sidebar() {
 
         {/* Nav Icons */}
         <nav className="flex flex-1 flex-col items-center gap-1 px-2 pt-4">
-          {navItems.map((item) => (
+          {navItems.map((item, index) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
                 "group relative flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-150",
+                index > 1 && "hidden",
                 isActive(item.href)
                   ? "bg-white text-[#5E8E2E]"
                   : "text-white/80 hover:bg-white/15 hover:text-white"
@@ -161,13 +162,14 @@ export function Sidebar() {
           <p className="px-3 py-2 text-[10px] font-semibold uppercase tracking-wider text-[#9AA19B]">Navigation</p>
         </div>
         <nav className="px-3">
-          {navItems.map((item) => (
+          {navItems.map((item, index) => (
             <Link
               key={item.href}
               href={item.href}
               onClick={() => setExpanded(false)}
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all duration-150",
+                index > 1 && "hidden",
                 isActive(item.href)
                   ? "bg-[#EAF4DD] font-medium text-[#5E8E2E]"
                   : "text-[#5F6661] hover:bg-[#F8F9F7] hover:text-[#2F3431]"
