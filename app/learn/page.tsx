@@ -278,16 +278,14 @@ export default function LearnPage() {
                     </div>
 
                     {/* Description */}
-                    {selectedLesson.description && (
-                      <div className="rounded-xl border border-[#E2E6E1] bg-white p-6">
-                        <h3 className="mb-3 font-semibold text-[#2F3431]">
-                          About this lesson
-                        </h3>
-                        <p className="whitespace-pre-wrap text-sm leading-relaxed text-[#5F6661]">
-                          {selectedLesson.description}
-                        </p>
-                      </div>
-                    )}
+                    <div className="rounded-xl border border-[#E2E6E1] bg-white p-6">
+                      <h3 className="mb-3 font-semibold text-[#2F3431]">
+                        About this lesson
+                      </h3>
+                      <p className="whitespace-pre-wrap text-sm leading-relaxed text-[#5F6661]">
+                        {selectedLesson.description || "No description available for this lesson."}
+                      </p>
+                    </div>
                   </>
                 ) : (
                   <div className="flex aspect-video items-center justify-center rounded-xl bg-[#F8F9F7]">
