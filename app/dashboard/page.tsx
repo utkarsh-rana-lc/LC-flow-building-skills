@@ -69,7 +69,8 @@ export default function DashboardPage() {
             </div>
           </section>
 
-          {/* Stats */}
+          {/* Stats - hidden for now */}
+          {false && (
           <section className="mb-8 grid grid-cols-3 gap-4">
             {[
               { label: "Lessons Completed", value: "18", total: "/ 157" },
@@ -85,6 +86,7 @@ export default function DashboardPage() {
               </div>
             ))}
           </section>
+          )}
 
           {/* Learning Path */}
           <section className="rounded-xl border border-[#E2E6E1] bg-white">
@@ -135,7 +137,8 @@ export default function DashboardPage() {
             </div>
           </section>
 
-          {/* Quick Actions */}
+          {/* Quick Actions - hidden for now */}
+          {false && (
           <section className="mt-8 grid grid-cols-3 gap-4">
             {[
               { href: "/courses", icon: "book", color: "#7FB13D", bg: "#EAF4DD", title: "Browse Courses", desc: "Explore all content" },
@@ -176,7 +179,7 @@ export default function DashboardPage() {
               </Link>
             ))}
           </section>
-        </div>
+          )}
       </div>
     </AppLayout>
   );
