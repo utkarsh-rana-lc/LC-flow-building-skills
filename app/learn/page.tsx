@@ -63,17 +63,23 @@ export default function LearnPage() {
   useEffect(() => {
     async function fetchLessons() {
       try {
+        console.log("[v0] Fetching CSV from Google Sheets...");
         const response = await fetch(
           "https://docs.google.com/spreadsheets/d/e/2PACX-1vR4Hahijs0C135EAdtK9q_kQbAUecZRTIpSHSHL0srya9Zl-jsL2Z-WMV8yIF1pmOOuR87zazRz8k7V/pub?output=csv"
         );
+        console.log("[v0] Response status:", response.status);
         const csvText = await response.text();
+        console.log("[v0] CSV fetched, length:", csvText.length);
         const parsedLessons = parseCSV(csvText);
+        console.log("[v0] Parsed lessons count:", parsedLessons.length);
+        console.log("[v0] First lesson:", parsedLessons[0]);
         setLessons(parsedLessons);
 
         const firstWithVideo = parsedLessons.find((l) => l.videoUrl);
+        console.log("[v0] First lesson with video:", firstWithVideo);
         if (firstWithVideo) setSelectedLesson(firstWithVideo);
       } catch (error) {
-        console.error("Failed to fetch lessons:", error);
+        console.error("[v0] Failed to fetch lessons:", error);
       } finally {
         setLoading(false);
       }
