@@ -283,7 +283,7 @@ export default function LearnPage() {
                         About this lesson
                       </h3>
                       <p className="whitespace-pre-wrap text-sm leading-relaxed text-[#5F6661]">
-                        {selectedLesson.description || "No description available for this lesson."}
+                        {selectedLesson?.description || "No description available for this lesson."}
                       </p>
                     </div>
                   </>
