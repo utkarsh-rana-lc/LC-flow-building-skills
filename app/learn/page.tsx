@@ -262,42 +262,30 @@ export default function LearnPage() {
             </header>
 
             {/* Content Area */}
-            <div className="p-6">
-              <div className="mx-auto max-w-4xl">
-                {selectedLesson ? (
-                  <>
-                    {/* Video Player */}
-                    <div className="mb-6 aspect-video w-full overflow-hidden rounded-xl bg-[#2F3431]">
-                      <iframe
-                        src={selectedLesson.videoUrl}
-                        className="h-full w-full"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        title={selectedLesson.title}
-                      />
-                    </div>
-
-                    {/* Description */}
-                    <div className="rounded-xl border border-[#E2E6E1] bg-white p-6">
-                      <h3 className="mb-3 font-semibold text-[#2F3431]">
-                        About this lesson
-                      </h3>
-                      <p className="whitespace-pre-wrap text-sm leading-relaxed text-[#5F6661]">
-                        {selectedLesson?.description || "No description available for this lesson."}
-                      </p>
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex aspect-video items-center justify-center rounded-xl bg-[#F8F9F7]">
-                    <div className="text-center">
-                      <PlayCircle className="mx-auto mb-4 h-16 w-16 text-[#9AA19B]" />
-                      <p className="text-[#5F6661]">
-                        Select a lesson from the sidebar to begin
-                      </p>
-                    </div>
+            <div className="p-0">
+              {selectedLesson ? (
+                <>
+                  {/* Video Player - Full Screen */}
+                  <div className="aspect-video w-full overflow-hidden bg-[#2F3431]">
+                    <iframe
+                      src={selectedLesson.videoUrl}
+                      className="h-full w-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      title={selectedLesson.title}
+                    />
                   </div>
-                )}
-              </div>
+                </>
+              ) : (
+                <div className="flex aspect-video items-center justify-center bg-[#F8F9F7]">
+                  <div className="text-center">
+                    <PlayCircle className="mx-auto mb-4 h-16 w-16 text-[#9AA19B]" />
+                    <p className="text-[#5F6661]">
+                      Select a lesson from the sidebar to begin
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </main>
         </div>
