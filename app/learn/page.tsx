@@ -292,21 +292,6 @@ export default function LearnPage() {
                     title={selectedLesson.title}
                   />
                 </div>
-
-                {/* Description below video */}
-                <div className="px-8 py-6">
-                  <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-[#9AA19B]">
-                    {selectedLesson.module}
-                  </p>
-                  <h1 className="text-xl font-semibold text-[#2F3431]">
-                    {selectedLesson.title}
-                  </h1>
-                  {selectedLesson.description && (
-                    <p className="mt-3 text-sm leading-relaxed text-[#5F6661]">
-                      {selectedLesson.description}
-                    </p>
-                  )}
-                </div>
               </>
             ) : (
               <div className="flex flex-1 items-center justify-center">
