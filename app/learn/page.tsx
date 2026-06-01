@@ -278,11 +278,11 @@ export default function LearnPage() {
           )}
 
           {/* Main content */}
-          <main className="flex flex-1 flex-col overflow-y-auto">
+          <main className="flex flex-1 flex-col overflow-hidden bg-black">
             {selectedLesson ? (
               <>
-                {/* Video — full width, 16:9 */}
-                <div className="aspect-video w-full flex-shrink-0 bg-black">
+                {/* Video — full width, fills entire main area */}
+                <div className="h-full w-full flex-1">
                   <iframe
                     key={selectedLesson.videoUrl}
                     src={selectedLesson.videoUrl}
