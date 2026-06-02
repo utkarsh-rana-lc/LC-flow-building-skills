@@ -7,22 +7,13 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 const navItems = [
-  { 
-    label: "Home", 
-    href: "/dashboard", 
+  {
+    label: "Academy",
+    href: "/academy",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-        <polyline points="9 22 9 12 15 12 15 22" />
-      </svg>
-    )
-  },
-  { 
-    label: "Learn", 
-    href: "/learn", 
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="5 3 19 12 5 21 5 3" />
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+        <path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5" />
       </svg>
     )
   },
@@ -76,7 +67,7 @@ export function Sidebar() {
   const [expanded, setExpanded] = useState(false);
 
   const isActive = (href: string) => {
-    if (href === "/dashboard") return pathname === "/dashboard";
+    if (href === "/academy") return pathname === "/academy" || pathname === "/dashboard";
     return pathname.startsWith(href);
   };
 
@@ -86,7 +77,7 @@ export function Sidebar() {
       <aside className="fixed left-0 top-0 z-50 flex h-screen w-16 flex-col bg-[#5E8E2E]">
         {/* Logo */}
         <div className="flex h-16 items-center justify-center border-b border-white/10">
-          <Link href="/dashboard" className="transition-transform hover:scale-105">
+          <Link href="/academy" className="transition-transform hover:scale-105">
             <Image
               src="/images/limechat-icon.png"
               alt="LimeChat"
