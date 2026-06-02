@@ -91,155 +91,156 @@ export default function AcademyPage() {
 
   return (
     <AppLayout>
-      <div className="min-h-screen bg-[#F8FAF6]">
+      <div className="min-h-screen bg-white">
 
         {/* Breadcrumb */}
-        <div className="border-b border-[#E8EDE6] bg-white px-8 py-3">
-          <p className="text-sm">
+        <header className="border-b border-[#E8EDE6] bg-white px-8 py-4">
+          <nav className="text-sm">
             <span className="font-medium text-[#7FB13D]">Academy</span>
-            <span className="text-[#C4C9C5]"> / </span>
+            <span className="mx-2 text-[#D4D9D4]">/</span>
             <span className="text-[#5F6661]">Home</span>
-          </p>
-        </div>
+          </nav>
+        </header>
 
-        <div className="mx-auto max-w-2xl px-6 py-10">
+        <div className="mx-auto max-w-3xl px-8 py-10">
 
           {/* Hero card */}
-          <div className="mb-10 overflow-hidden rounded-2xl border border-[#DDE8D4] bg-white shadow-sm">
-            <div className="bg-[#F2F9EA] px-8 pb-8 pt-10 text-center">
+          <section className="mb-12 overflow-hidden rounded-xl border border-[#E8EDE6] bg-white">
+            <div className="bg-gradient-to-b from-[#F5FAF0] to-white px-10 py-12 text-center">
               {/* Graduation cap badge */}
-              <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#5E8E2E] shadow-md">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#5E8E2E] shadow-lg">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
                   <path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5" />
                 </svg>
               </div>
 
-              <p className="mb-1 text-xs font-bold uppercase tracking-widest text-[#7FB13D]">LimeChat</p>
-              <h1 className="text-balance text-2xl font-bold text-[#2F3431]">Bot Builder Academy</h1>
-              <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-[#5F6661]">
+              <h1 className="text-2xl font-bold text-[#2F3431]">Agentic Studio Learning Academy</h1>
+              <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-[#6B7280]">
                 Master LimeChat&apos;s Agentic Studio — explore every node, flow, and agent at your own pace.
               </p>
 
-              <div className="mt-6">
+              <div className="mt-8">
                 <Link
                   href="/learn"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#5E8E2E] px-7 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[#4E7926] hover:shadow-md"
+                  className="inline-flex items-center gap-2.5 rounded-full bg-[#5E8E2E] px-8 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[#4E7926] hover:shadow-md"
                 >
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                     <polygon points="5 3 19 12 5 21 5 3" />
                   </svg>
                   Explore Learning Academy
                 </Link>
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Stage accordions */}
-          <h2 className="mb-5 text-base font-semibold text-[#2F3431]">Browse by Stage</h2>
+          <section>
+            <h2 className="mb-6 text-lg font-semibold text-[#2F3431]">Browse by Stage</h2>
 
-          {loading ? (
-            <div className="flex flex-col gap-3">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-[72px] animate-pulse rounded-2xl bg-white shadow-sm" />
-              ))}
-            </div>
-          ) : (
-            <div className="flex flex-col gap-3">
-              {stageNames.map((stageName, idx) => {
-                const moduleNames = Object.keys(stageMap[stageName].modules);
-                const totalLessons = moduleNames.reduce(
-                  (sum, mod) => sum + stageMap[stageName].modules[mod].length,
-                  0
-                );
-                const isOpen = openStage === stageName;
+            {loading ? (
+              <div className="flex flex-col gap-4">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-20 animate-pulse rounded-xl bg-[#F5F7F5]" />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                {stageNames.map((stageName, idx) => {
+                  const moduleNames = Object.keys(stageMap[stageName].modules);
+                  const totalLessons = moduleNames.reduce(
+                    (sum, mod) => sum + stageMap[stageName].modules[mod].length,
+                    0
+                  );
+                  const isOpen = openStage === stageName;
 
-                return (
-                  <div
-                    key={stageName}
-                    className="overflow-hidden rounded-2xl border border-[#E8EDE6] bg-white shadow-sm transition-shadow hover:shadow-md"
-                  >
-                    {/* Header */}
-                    <button
-                      onClick={() => setOpenStage(isOpen ? null : stageName)}
-                      className="flex w-full items-center gap-4 px-6 py-5 text-left transition-colors hover:bg-[#FAFCF8]"
+                  return (
+                    <div
+                      key={stageName}
+                      className="overflow-hidden rounded-xl border border-[#E8EDE6] bg-white shadow-sm transition-shadow duration-200 hover:shadow-md"
                     >
-                      {/* Numbered badge */}
-                      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[#5E8E2E] shadow-sm">
-                        <span className="text-sm font-bold text-white">{idx + 1}</span>
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-[#2F3431]">{stageName}</p>
-                        <p className="mt-0.5 text-xs text-[#9AA19B]">
-                          {moduleNames.length} {moduleNames.length === 1 ? "section" : "sections"} &middot; {totalLessons} lessons
-                        </p>
-                      </div>
-
-                      <svg
-                        width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="#9AA19B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                        className={`flex-shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                      {/* Header */}
+                      <button
+                        onClick={() => setOpenStage(isOpen ? null : stageName)}
+                        className="flex w-full items-center gap-5 px-6 py-5 text-left transition-colors"
                       >
-                        <path d="M6 9l6 6 6-6" />
-                      </svg>
-                    </button>
+                        {/* Numbered badge */}
+                        <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-[#EAF4DD]">
+                          <span className="text-base font-bold text-[#5E8E2E]">{idx + 1}</span>
+                        </div>
 
-                    {/* Expanded body */}
-                    {isOpen && (
-                      <div className="border-t border-[#F0F4EE] px-6 pb-5 pt-4">
-                        {moduleNames.map((moduleName, modIdx) => {
-                          const moduleLessons = stageMap[stageName].modules[moduleName];
-                          return (
-                            <div
-                              key={moduleName}
-                              className={modIdx > 0 ? "mt-5 border-t border-[#F0F4EE] pt-5" : ""}
-                            >
-                              {/* Section label */}
-                              <p className="mb-2.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#9AA19B]">
-                                {moduleName}
-                              </p>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-base font-semibold text-[#2F3431]">{stageName}</p>
+                          <p className="mt-1 text-sm text-[#9CA3AF]">
+                            {moduleNames.length} {moduleNames.length === 1 ? "section" : "sections"} · {totalLessons} lessons
+                          </p>
+                        </div>
 
-                              <div className="flex flex-col gap-0.5">
-                                {moduleLessons.map((lesson) =>
-                                  lesson.videoUrl ? (
-                                    <Link
-                                      key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
-                                      href="/learn"
-                                      className="group flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-[#5F6661] transition-colors hover:bg-[#EAF4DD] hover:text-[#5E8E2E]"
-                                    >
-                                      <svg
-                                        width="11" height="11" viewBox="0 0 24 24"
-                                        fill="currentColor"
-                                        className="flex-shrink-0 text-[#C4C9C5] transition-colors group-hover:text-[#7FB13D]"
+                        <svg
+                          width="18" height="18" viewBox="0 0 24 24" fill="none"
+                          stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                          className={`flex-shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                        >
+                          <path d="M6 9l6 6 6-6" />
+                        </svg>
+                      </button>
+
+                      {/* Expanded body */}
+                      {isOpen && (
+                        <div className="border-t border-[#F0F4EE] px-6 pb-6 pt-5">
+                          {moduleNames.map((moduleName, modIdx) => {
+                            const moduleLessons = stageMap[stageName].modules[moduleName];
+                            return (
+                              <div
+                                key={moduleName}
+                                className={modIdx > 0 ? "mt-6 border-t border-[#F0F4EE] pt-6" : ""}
+                              >
+                                {/* Section label */}
+                                <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#9CA3AF]">
+                                  {moduleName}
+                                </p>
+
+                                <div className="flex flex-col">
+                                  {moduleLessons.map((lesson) =>
+                                    lesson.videoUrl ? (
+                                      <Link
+                                        key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
+                                        href="/learn"
+                                        className="group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-[#4B5563] transition-colors hover:bg-[#EAF4DD] hover:text-[#5E8E2E]"
                                       >
-                                        <polygon points="5 3 19 12 5 21 5 3" />
-                                      </svg>
-                                      {lesson.title}
-                                    </Link>
-                                  ) : (
-                                    <div
-                                      key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
-                                      className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm text-[#C4C9C5]"
-                                    >
-                                      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
-                                        <polygon points="5 3 19 12 5 21 5 3" />
-                                      </svg>
-                                      {lesson.title}
-                                    </div>
-                                  )
-                                )}
+                                        <svg
+                                          width="12" height="12" viewBox="0 0 24 24"
+                                          fill="currentColor"
+                                          className="flex-shrink-0 text-[#D1D5DB] transition-colors group-hover:text-[#7FB13D]"
+                                        >
+                                          <polygon points="5 3 19 12 5 21 5 3" />
+                                        </svg>
+                                        {lesson.title}
+                                      </Link>
+                                    ) : (
+                                      <div
+                                        key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
+                                        className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-[#D1D5DB]"
+                                      >
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
+                                          <polygon points="5 3 19 12 5 21 5 3" />
+                                        </svg>
+                                        {lesson.title}
+                                      </div>
+                                    )
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </section>
         </div>
       </div>
     </AppLayout>
