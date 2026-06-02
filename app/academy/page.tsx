@@ -92,10 +92,10 @@ export default function AcademyPage() {
 
   return (
     <AppLayout>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white shadow-[-4px_0_12px_rgba(0,0,0,0.08)]">
 
         {/* Hero */}
-        <section className="relative overflow-hidden bg-[#5E8E2E]">
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#4A7A28] to-[#5E8E2E]">
           <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/5" />
           <div className="pointer-events-none absolute -bottom-16 left-1/3 h-64 w-64 rounded-full bg-white/5" />
           <div className="pointer-events-none absolute right-1/4 top-1/2 h-32 w-32 rounded-full bg-white/5" />
