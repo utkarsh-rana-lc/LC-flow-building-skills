@@ -98,169 +98,165 @@ export default function AcademyPage() {
     return map;
   }, [lessons]);
 
-  const stageNames = Object.keys(stageMap);
-
   return (
     <AppLayout>
-      <div className="min-h-screen bg-[#F8FAF6]">
+      <div className="min-h-screen bg-white">
+        {/* Breadcrumb */}
+        <div className="border-b border-[#E2E6E1] px-6 py-3">
+          <p className="text-sm text-[#5F6661]">
+            <span className="font-medium text-[#7FB13D]">Academy</span>
+            <span className="text-[#9AA19B]"> / </span>
+            <span>Home</span>
+          </p>
+        </div>
 
-        {/* Hero */}
-        <section className="relative overflow-hidden bg-[#5E8E2E]">
-          <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/5" />
-          <div className="pointer-events-none absolute -bottom-16 left-1/3 h-64 w-64 rounded-full bg-white/5" />
-          <div className="pointer-events-none absolute right-1/4 top-1/2 h-32 w-32 rounded-full bg-white/5" />
-
-          <div className="relative mx-auto max-w-4xl px-8 py-16 text-center">
-            <div className="mb-6 flex justify-center">
+        <div className="mx-auto max-w-2xl px-6 py-8">
+          {/* Hero Card */}
+          <div className="mb-10 rounded-2xl border-2 border-[#E8EDE6] bg-[#F5FBEF] p-8">
+            <div className="flex justify-center mb-4">
               <Image
                 src="/images/limechat-logo.png"
                 alt="LimeChat"
-                width={160}
-                height={42}
-                className="h-10 w-auto brightness-0 invert"
+                width={120}
+                height={32}
+                className="h-8 w-auto"
               />
             </div>
-            <h1 className="text-balance text-4xl font-bold leading-tight text-white">
+            <h1 className="text-center text-2xl font-bold text-[#2F3431]">
               Bot Builder Academy
             </h1>
-            <p className="mx-auto mt-4 max-w-xl text-lg text-white/80">
-              Master LimeChat&apos;s Agentic Studio from zero to certified expert — at your own pace.
+            <p className="mx-auto mt-3 max-w-md text-center text-sm text-[#5F6661]">
+              Master building production-ready conversational bots. Complete {stats.stages} stages to earn your certification as a LimeChat Bot Builder expert.
             </p>
 
-            {!loading && (
-              <div className="mt-8 flex items-center justify-center gap-12">
-                {[
-                  { label: "Stages", value: stats.stages },
-                  { label: "Total Lessons", value: stats.total },
-                  { label: "Available Now", value: stats.available },
-                ].map((s) => (
-                  <div key={s.label} className="text-center">
-                    <p className="text-3xl font-bold text-white">{s.value}</p>
-                    <p className="mt-0.5 text-sm text-white/70">{s.label}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="mt-10">
+            {/* Buttons */}
+            <div className="mt-6 flex items-center justify-center gap-4">
               <Link
                 href="/learn"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-semibold text-[#5E8E2E] shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+                className="inline-flex items-center gap-2 rounded-full bg-[#7FB13D] px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#6A9830] hover:shadow-md"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                   <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
-                Explore Learning Academy
+                Continue Learning
               </Link>
+              <button
+                className="inline-flex items-center gap-2 rounded-full border-2 border-[#7FB13D] px-6 py-2.5 text-sm font-semibold text-[#5F6661] transition-all hover:bg-[#F8F9F7]"
+              >
+                View Full Path
+              </button>
             </div>
           </div>
-        </section>
 
-        {/* Stage Cards */}
-        <section className="mx-auto max-w-2xl px-6 py-12">
-          <h2 className="mb-1 text-xl font-bold text-[#2F3431]">Your Learning Journey</h2>
-          <p className="mb-8 text-sm text-[#9AA19B]">Click a stage to explore its lessons</p>
-
-          {loading ? (
-            <div className="flex flex-col gap-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-20 animate-pulse rounded-2xl bg-white shadow-sm" />
-              ))}
+          {/* Your Learning Path Section */}
+          <div>
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-lg font-semibold text-[#2F3431]">Your Learning Path</h2>
+              <span className="text-sm text-[#7FB13D] hover:text-[#6A9830] cursor-pointer">View all</span>
             </div>
-          ) : (
-            <div className="flex flex-col gap-4">
-              {stageNames.map((stageName, idx) => {
-                const moduleNames = Object.keys(stageMap[stageName].modules);
-                const isOpen = openStage === stageName;
 
-                return (
-                  <div
-                    key={stageName}
-                    className="overflow-hidden rounded-2xl border border-[#E8EDE6] bg-white shadow-sm transition-shadow duration-200 hover:shadow-md"
-                  >
-                    {/* Card header — clickable */}
-                    <button
-                      onClick={() => setOpenStage(isOpen ? null : stageName)}
-                      className="flex w-full items-center gap-4 px-6 py-5 text-left"
+            {loading ? (
+              <div className="flex flex-col gap-3">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="h-16 animate-pulse rounded-xl bg-[#F1F3F0]" />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-3">
+                {stageNames.map((stageName, idx) => {
+                  const moduleNames = Object.keys(stageMap[stageName].modules);
+                  const isOpen = openStage === stageName;
+                  const totalLessons = moduleNames.reduce((sum, mod) => sum + stageMap[stageName].modules[mod].length, 0);
+
+                  return (
+                    <div
+                      key={stageName}
+                      className="overflow-hidden rounded-xl border border-[#E2E6E1] bg-white transition-all"
                     >
-                      {/* Number circle */}
-                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#5E8E2E]">
-                        <span className="text-sm font-bold text-white">{idx + 1}</span>
-                      </div>
-
-                      {/* Stage name */}
-                      <div className="flex-1">
-                        <p className="font-semibold text-[#2F3431]">{stageName}</p>
-                        <p className="mt-0.5 text-xs text-[#9AA19B]">
-                          {moduleNames.length} {moduleNames.length === 1 ? "section" : "sections"}
-                        </p>
-                      </div>
-
-                      {/* Chevron */}
-                      <svg
-                        width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="#7FB13D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-                        className={`flex-shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                      {/* Card header — clickable */}
+                      <button
+                        onClick={() => setOpenStage(isOpen ? null : stageName)}
+                        className="flex w-full items-center gap-3 px-5 py-4 text-left hover:bg-[#F8F9F7]/50 transition-colors"
                       >
-                        <path d="M6 9l6 6 6-6" />
-                      </svg>
-                    </button>
+                        {/* Number circle */}
+                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[#7FB13D]">
+                          <span className="text-xs font-bold text-white">{idx + 1}</span>
+                        </div>
 
-                    {/* Expanded lesson list */}
-                    {isOpen && (
-                      <div className="border-t border-[#F1F5EE] px-6 pb-5 pt-4">
-                        {moduleNames.map((moduleName) => {
-                          const moduleLessons = stageMap[stageName].modules[moduleName];
-                          return (
-                            <div key={moduleName} className="mb-5 last:mb-0">
-                              {/* Module heading */}
-                              <p className="mb-2 text-[11px] font-bold uppercase tracking-widest text-[#7FB13D]">
-                                {moduleName}
-                              </p>
-                              <div className="flex flex-col gap-0.5">
-                                {moduleLessons.map((lesson) =>
-                                  lesson.videoUrl ? (
-                                    <Link
-                                      key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
-                                      href="/learn"
-                                      className="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-[#5F6661] transition-colors hover:bg-[#EAF4DD] hover:text-[#5E8E2E]"
-                                    >
-                                      <svg
-                                        width="13" height="13" viewBox="0 0 24 24"
-                                        fill="currentColor"
-                                        className="flex-shrink-0 text-[#C4C9C5] group-hover:text-[#7FB13D]"
+                        {/* Stage name and details */}
+                        <div className="flex-1">
+                          <p className="font-semibold text-[#2F3431]">{stageName}</p>
+                          <p className="mt-0.5 text-xs text-[#9AA19B]">
+                            {moduleNames.length} {moduleNames.length === 1 ? "section" : "sections"} • {totalLessons} lessons
+                          </p>
+                        </div>
+
+                        {/* Chevron */}
+                        <svg
+                          width="16" height="16" viewBox="0 0 24 24" fill="none"
+                          stroke="#9AA19B" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                          className={`flex-shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                        >
+                          <path d="M6 9l6 6 6-6" />
+                        </svg>
+                      </button>
+
+                      {/* Expanded lesson list */}
+                      {isOpen && (
+                        <div className="border-t border-[#F1F3F0] px-5 pb-4 pt-3">
+                          {moduleNames.map((moduleName, modIdx) => {
+                            const moduleLessons = stageMap[stageName].modules[moduleName];
+                            return (
+                              <div key={moduleName} className={modIdx > 0 ? "mt-4 pt-4 border-t border-[#F1F3F0]" : ""}>
+                                {/* Module heading */}
+                                <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-[#9AA19B]">
+                                  {moduleName}
+                                </p>
+                                <div className="flex flex-col gap-1">
+                                  {moduleLessons.map((lesson) =>
+                                    lesson.videoUrl ? (
+                                      <Link
+                                        key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
+                                        href="/learn"
+                                        className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-xs text-[#5F6661] transition-colors hover:bg-[#EAF4DD] hover:text-[#5E8E2E]"
                                       >
-                                        <polygon points="5 3 19 12 5 21 5 3" />
-                                      </svg>
-                                      {lesson.title}
-                                    </Link>
-                                  ) : (
-                                    <div
-                                      key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
-                                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-[#C4C9C5]"
-                                    >
-                                      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
-                                        <polygon points="5 3 19 12 5 21 5 3" />
-                                      </svg>
-                                      <span className="flex-1">{lesson.title}</span>
-                                      <span className="rounded bg-[#F1F3F0] px-1.5 py-0.5 text-[10px] font-medium text-[#9AA19B]">
-                                        Soon
-                                      </span>
-                                    </div>
-                                  )
-                                )}
+                                        <svg
+                                          width="11" height="11" viewBox="0 0 24 24"
+                                          fill="currentColor"
+                                          className="flex-shrink-0 text-[#C4C9C5] group-hover:text-[#7FB13D]"
+                                        >
+                                          <polygon points="5 3 19 12 5 21 5 3" />
+                                        </svg>
+                                        {lesson.title}
+                                      </Link>
+                                    ) : (
+                                      <div
+                                        key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
+                                        className="flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-xs text-[#C4C9C5]"
+                                      >
+                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
+                                          <polygon points="5 3 19 12 5 21 5 3" />
+                                        </svg>
+                                        <span className="flex-1">{lesson.title}</span>
+                                        <span className="rounded bg-[#F1F3F0] px-1 py-0.5 text-[9px] font-medium text-[#9AA19B]">
+                                          Soon
+                                        </span>
+                                      </div>
+                                    )
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </section>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </AppLayout>
   );
