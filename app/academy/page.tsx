@@ -62,11 +62,15 @@ function parseCSV(csvText: string): Lesson[] {
 export default function AcademyPage() {
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(true);
+  const [openStage, setOpenStage] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(CSV_URL)
       .then((r) => r.text())
-      .then((text) => setLessons(parseCSV(text)))
+      .then((text) => {
+        const parsed = parseCSV(text);
+        setLessons(parsed);
+      })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
@@ -85,6 +89,12 @@ export default function AcademyPage() {
         map[lesson.stage].modules[lesson.module] = [];
       map[lesson.stage].modules[lesson.module].push(lesson);
     }
+    // Sort lessons within each module by order
+    for (const stage of Object.keys(map)) {
+      for (const mod of Object.keys(map[stage].modules)) {
+        map[stage].modules[mod].sort((a, b) => a.order - b.order);
+      }
+    }
     return map;
   }, [lessons]);
 
@@ -92,10 +102,10 @@ export default function AcademyPage() {
 
   return (
     <AppLayout>
-      <div className="min-h-screen bg-white shadow-[-4px_0_12px_rgba(0,0,0,0.08)]">
+      <div className="min-h-screen bg-[#F8FAF6]">
 
         {/* Hero */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#4A7A28] to-[#5E8E2E]">
+        <section className="relative overflow-hidden bg-[#5E8E2E]">
           <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/5" />
           <div className="pointer-events-none absolute -bottom-16 left-1/3 h-64 w-64 rounded-full bg-white/5" />
           <div className="pointer-events-none absolute right-1/4 top-1/2 h-32 w-32 rounded-full bg-white/5" />
@@ -118,7 +128,7 @@ export default function AcademyPage() {
             </p>
 
             {!loading && (
-              <div className="mt-8 flex items-center justify-center gap-8">
+              <div className="mt-8 flex items-center justify-center gap-12">
                 {[
                   { label: "Stages", value: stats.stages },
                   { label: "Total Lessons", value: stats.total },
@@ -132,12 +142,12 @@ export default function AcademyPage() {
               </div>
             )}
 
-            <div className="mt-10 flex items-center justify-center gap-4">
+            <div className="mt-10">
               <Link
                 href="/learn"
                 className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-semibold text-[#5E8E2E] shadow-lg transition-all hover:scale-105 hover:shadow-xl"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                   <polygon points="5 3 19 12 5 21 5 3" />
                 </svg>
                 Explore Learning Academy
@@ -146,141 +156,108 @@ export default function AcademyPage() {
           </div>
         </section>
 
-        {/* Journey */}
-        <section className="mx-auto max-w-2xl px-6 py-16">
-          <h2 className="mb-1 text-center text-2xl font-bold text-[#2F3431]">Your Learning Journey</h2>
-          <p className="mb-14 text-center text-sm text-[#9AA19B]">
-            Progress through each stage to earn your certification
-          </p>
+        {/* Stage Cards */}
+        <section className="mx-auto max-w-2xl px-6 py-12">
+          <h2 className="mb-1 text-xl font-bold text-[#2F3431]">Your Learning Journey</h2>
+          <p className="mb-8 text-sm text-[#9AA19B]">Click a stage to explore its lessons</p>
 
           {loading ? (
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-44 animate-pulse rounded-2xl bg-[#F1F3F0]" />
+                <div key={i} className="h-20 animate-pulse rounded-2xl bg-white shadow-sm" />
               ))}
             </div>
           ) : (
-            <div className="relative">
-              {/* Timeline spine */}
-              <div
-                className="absolute left-[27px] top-14 w-px bg-gradient-to-b from-[#7FB13D] to-[#7FB13D]/10"
-                style={{ height: "calc(100% - 96px)" }}
-              />
+            <div className="flex flex-col gap-4">
+              {stageNames.map((stageName, idx) => {
+                const moduleNames = Object.keys(stageMap[stageName].modules);
+                const isOpen = openStage === stageName;
 
-              <div className="flex flex-col gap-8">
-                {stageNames.map((stageName, idx) => {
-                  const moduleNames = Object.keys(stageMap[stageName].modules);
-                  const stageLessons = moduleNames.flatMap((m) => stageMap[stageName].modules[m]);
-                  const total = stageLessons.length;
-                  const available = stageLessons.filter((l) => l.videoUrl).length;
-                  const pct = total > 0 ? Math.round((available / total) * 100) : 0;
-                  const circ = 2 * Math.PI * 20;
-                  const offset = circ - (pct / 100) * circ;
-
-                  return (
-                    <div key={stageName} className="flex items-start gap-5">
-                      {/* Numbered node */}
-                      <div className="relative z-10 flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[#5E8E2E] shadow-md ring-4 ring-white">
-                        <span className="text-base font-bold text-white">{idx + 1}</span>
+                return (
+                  <div
+                    key={stageName}
+                    className="overflow-hidden rounded-2xl border border-[#E8EDE6] bg-white shadow-sm transition-shadow duration-200 hover:shadow-md"
+                  >
+                    {/* Card header — clickable */}
+                    <button
+                      onClick={() => setOpenStage(isOpen ? null : stageName)}
+                      className="flex w-full items-center gap-4 px-6 py-5 text-left"
+                    >
+                      {/* Number circle */}
+                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#5E8E2E]">
+                        <span className="text-sm font-bold text-white">{idx + 1}</span>
                       </div>
 
-                      {/* Card */}
-                      <div className="flex-1 rounded-2xl border border-[#E8EDE6] bg-white p-6 shadow-[0_2px_12px_rgba(94,142,46,0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(94,142,46,0.13)]">
-
-                        {/* Card header */}
-                        <div className="flex items-start justify-between gap-4">
-                          <div>
-                            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#7FB13D]">
-                              {stageName}
-                            </p>
-                            {/* Lesson count chip */}
-                            <span className="mt-2 inline-flex items-center rounded-full bg-[#EAF4DD] px-3 py-1 text-xs font-semibold text-[#5E8E2E]">
-                              {available} / {total} lessons available
-                            </span>
-                          </div>
-
-                          {/* Progress ring */}
-                          <div className="relative flex-shrink-0">
-                            <svg width="56" height="56" className="-rotate-90">
-                              <circle cx="28" cy="28" r="20" fill="none" stroke="#EAF4DD" strokeWidth="4" />
-                              <circle
-                                cx="28" cy="28" r="20"
-                                fill="none"
-                                stroke="#7FB13D"
-                                strokeWidth="4"
-                                strokeDasharray={circ}
-                                strokeDashoffset={offset}
-                                strokeLinecap="round"
-                                style={{ transition: "stroke-dashoffset 1s ease" }}
-                              />
-                            </svg>
-                            <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-[#5E8E2E]">
-                              {pct}%
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Progress bar */}
-                        <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-[#EAF4DD]">
-                          <div
-                            className="h-full rounded-full bg-[#7FB13D] transition-all duration-1000"
-                            style={{ width: `${pct}%` }}
-                          />
-                        </div>
-
-                        {/* Module tags */}
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {moduleNames.map((mod) => {
-                            const modLessons = stageMap[stageName].modules[mod];
-                            const modAvail = modLessons.filter((l) => l.videoUrl).length;
-                            return (
-                              <span
-                                key={mod}
-                                className="inline-flex items-center gap-1.5 rounded-lg border border-[#DDE8D4] bg-white px-2.5 py-1 text-[11px] font-medium text-[#5E8E2E]"
-                              >
-                                <span className="h-1.5 w-1.5 rounded-full bg-[#7FB13D]" />
-                                {mod}
-                                <span className="text-[#9AA19B]">({modAvail}/{modLessons.length})</span>
-                              </span>
-                            );
-                          })}
-                        </div>
-
-                        {/* CTA */}
-                        <div className="mt-5 border-t border-[#F1F5EE] pt-4">
-                          <Link
-                            href="/learn"
-                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#5E8E2E] transition-all hover:gap-2.5"
-                          >
-                            Start Stage {idx + 1}
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                          </Link>
-                        </div>
+                      {/* Stage name */}
+                      <div className="flex-1">
+                        <p className="font-semibold text-[#2F3431]">{stageName}</p>
+                        <p className="mt-0.5 text-xs text-[#9AA19B]">
+                          {moduleNames.length} {moduleNames.length === 1 ? "section" : "sections"}
+                        </p>
                       </div>
-                    </div>
-                  );
-                })}
 
-                {/* Certification node */}
-                {stageNames.length > 0 && (
-                  <div className="flex items-center gap-5">
-                    <div className="relative z-10 flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-[#C4C9C5] bg-white">
-                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4C9C5" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                        <circle cx="12" cy="8" r="6" />
-                        <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+                      {/* Chevron */}
+                      <svg
+                        width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="#7FB13D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                        className={`flex-shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                      >
+                        <path d="M6 9l6 6 6-6" />
                       </svg>
-                    </div>
-                    <div className="flex-1 rounded-2xl border border-dashed border-[#E8EDE6] bg-[#FAFCF8] px-6 py-4">
-                      <p className="font-semibold text-[#9AA19B]">Certification</p>
-                      <p className="mt-0.5 text-xs text-[#C4C9C5]">
-                        Complete all stages to unlock your LimeChat Bot Builder certificate
-                      </p>
-                    </div>
+                    </button>
+
+                    {/* Expanded lesson list */}
+                    {isOpen && (
+                      <div className="border-t border-[#F1F5EE] px-6 pb-5 pt-4">
+                        {moduleNames.map((moduleName) => {
+                          const moduleLessons = stageMap[stageName].modules[moduleName];
+                          return (
+                            <div key={moduleName} className="mb-5 last:mb-0">
+                              {/* Module heading */}
+                              <p className="mb-2 text-[11px] font-bold uppercase tracking-widest text-[#7FB13D]">
+                                {moduleName}
+                              </p>
+                              <div className="flex flex-col gap-0.5">
+                                {moduleLessons.map((lesson) =>
+                                  lesson.videoUrl ? (
+                                    <Link
+                                      key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
+                                      href="/learn"
+                                      className="group flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-[#5F6661] transition-colors hover:bg-[#EAF4DD] hover:text-[#5E8E2E]"
+                                    >
+                                      <svg
+                                        width="13" height="13" viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                        className="flex-shrink-0 text-[#C4C9C5] group-hover:text-[#7FB13D]"
+                                      >
+                                        <polygon points="5 3 19 12 5 21 5 3" />
+                                      </svg>
+                                      {lesson.title}
+                                    </Link>
+                                  ) : (
+                                    <div
+                                      key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
+                                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-[#C4C9C5]"
+                                    >
+                                      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
+                                        <polygon points="5 3 19 12 5 21 5 3" />
+                                      </svg>
+                                      <span className="flex-1">{lesson.title}</span>
+                                      <span className="rounded bg-[#F1F3F0] px-1.5 py-0.5 text-[10px] font-medium text-[#9AA19B]">
+                                        Soon
+                                      </span>
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                );
+              })}
             </div>
           )}
         </section>

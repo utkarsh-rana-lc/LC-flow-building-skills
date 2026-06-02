@@ -88,7 +88,7 @@ export function Sidebar() {
           </Link>
         </div>
 
-        {/* Nav Icons */}
+        {/* Nav Icons — only Academy */}
         <nav className="flex flex-1 flex-col items-center gap-1 px-2 pt-4">
           {navItems.map((item, index) => (
             <Link
@@ -96,7 +96,7 @@ export function Sidebar() {
               href={item.href}
               className={cn(
                 "group relative flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-150",
-                index > 1 && "hidden",
+                index > 0 && "hidden",
                 isActive(item.href)
                   ? "bg-white text-[#5E8E2E]"
                   : "text-white/80 hover:bg-white/15 hover:text-white"
@@ -110,26 +110,9 @@ export function Sidebar() {
           ))}
         </nav>
 
-        {/* Expand Button */}
-        <div className="border-t border-white/10 p-3">
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className={cn(
-              "flex h-10 w-10 items-center justify-center rounded-lg transition-all duration-150",
-              expanded 
-                ? "bg-white text-[#5E8E2E]" 
-                : "text-white/80 hover:bg-white/15 hover:text-white"
-            )}
-            aria-label={expanded ? "Collapse menu" : "Expand menu"}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              {expanded ? (
-                <path d="M15 18l-6-6 6-6" />
-              ) : (
-                <path d="M9 18l6-6-6-6" />
-              )}
-            </svg>
-          </button>
+        {/* Expand Button — hidden since only one nav item */}
+        <div className="border-t border-white/10 p-3 opacity-0 pointer-events-none">
+          <div className="h-10 w-10" />
         </div>
       </aside>
 
