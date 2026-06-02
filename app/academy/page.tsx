@@ -59,29 +59,6 @@ function parseCSV(csvText: string): Lesson[] {
   return lessons;
 }
 
-function ProgressRing({ percent, size = 48 }: { percent: number; size?: number }) {
-  const r = (size - 8) / 2;
-  const circ = 2 * Math.PI * r;
-  const offset = circ - (percent / 100) * circ;
-  return (
-    <svg width={size} height={size} className="-rotate-90">
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#E2E6E1" strokeWidth="4" />
-      <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={r}
-        fill="none"
-        stroke="#7FB13D"
-        strokeWidth="4"
-        strokeDasharray={circ}
-        strokeDashoffset={offset}
-        strokeLinecap="round"
-        style={{ transition: "stroke-dashoffset 1s ease" }}
-      />
-    </svg>
-  );
-}
-
 export default function AcademyPage() {
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(true);
@@ -113,20 +90,12 @@ export default function AcademyPage() {
 
   const stageNames = Object.keys(stageMap);
 
-  const stageColors = [
-    { bg: "from-[#5E8E2E] to-[#7FB13D]", ring: "#7FB13D", light: "#EAF4DD", num: "#5E8E2E" },
-    { bg: "from-[#3A7D44] to-[#52A55C]", ring: "#52A55C", light: "#E0F2E5", num: "#3A7D44" },
-    { bg: "from-[#2D6E6E] to-[#3D9E9E]", ring: "#3D9E9E", light: "#DDF2F2", num: "#2D6E6E" },
-    { bg: "from-[#6E5E2E] to-[#9E8540]", ring: "#9E8540", light: "#F5F0DC", num: "#6E5E2E" },
-  ];
-
   return (
     <AppLayout>
-      <div className="min-h-screen bg-[#F8F9F7]">
+      <div className="min-h-screen bg-white">
 
         {/* Hero */}
         <section className="relative overflow-hidden bg-[#5E8E2E]">
-          {/* Decorative circles */}
           <div className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-white/5" />
           <div className="pointer-events-none absolute -bottom-16 left-1/3 h-64 w-64 rounded-full bg-white/5" />
           <div className="pointer-events-none absolute right-1/4 top-1/2 h-32 w-32 rounded-full bg-white/5" />
@@ -148,7 +117,6 @@ export default function AcademyPage() {
               Master LimeChat&apos;s Agentic Studio from zero to certified expert — at your own pace.
             </p>
 
-            {/* Stats row */}
             {!loading && (
               <div className="mt-8 flex items-center justify-center gap-8">
                 {[
@@ -178,114 +146,114 @@ export default function AcademyPage() {
           </div>
         </section>
 
-        {/* Roadmap */}
-        <section className="mx-auto max-w-3xl px-6 py-16">
-          <h2 className="mb-2 text-center text-2xl font-bold text-[#2F3431]">Your Learning Journey</h2>
-          <p className="mb-12 text-center text-sm text-[#9AA19B]">
+        {/* Journey */}
+        <section className="mx-auto max-w-2xl px-6 py-16">
+          <h2 className="mb-1 text-center text-2xl font-bold text-[#2F3431]">Your Learning Journey</h2>
+          <p className="mb-14 text-center text-sm text-[#9AA19B]">
             Progress through each stage to earn your certification
           </p>
 
           {loading ? (
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-8">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="h-40 animate-pulse rounded-2xl bg-[#E2E6E1]" />
+                <div key={i} className="h-44 animate-pulse rounded-2xl bg-[#F1F3F0]" />
               ))}
             </div>
           ) : (
             <div className="relative">
-              {/* Vertical connector line */}
-              <div className="absolute left-8 top-10 h-[calc(100%-80px)] w-0.5 bg-gradient-to-b from-[#7FB13D] via-[#7FB13D]/40 to-transparent" />
+              {/* Timeline spine */}
+              <div
+                className="absolute left-[27px] top-14 w-px bg-gradient-to-b from-[#7FB13D] to-[#7FB13D]/10"
+                style={{ height: "calc(100% - 96px)" }}
+              />
 
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-8">
                 {stageNames.map((stageName, idx) => {
-                  const color = stageColors[idx % stageColors.length];
                   const moduleNames = Object.keys(stageMap[stageName].modules);
-                  const stageLessons = moduleNames.flatMap(
-                    (m) => stageMap[stageName].modules[m]
-                  );
+                  const stageLessons = moduleNames.flatMap((m) => stageMap[stageName].modules[m]);
                   const total = stageLessons.length;
                   const available = stageLessons.filter((l) => l.videoUrl).length;
                   const pct = total > 0 ? Math.round((available / total) * 100) : 0;
+                  const circ = 2 * Math.PI * 20;
+                  const offset = circ - (pct / 100) * circ;
 
                   return (
                     <div key={stageName} className="flex items-start gap-5">
-                      {/* Stage node */}
-                      <div className="relative z-10 flex-shrink-0">
-                        <div
-                          className={`flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${color.bg} shadow-lg`}
-                        >
-                          <span className="text-xl font-bold text-white">{idx + 1}</span>
-                        </div>
+                      {/* Numbered node */}
+                      <div className="relative z-10 flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full bg-[#5E8E2E] shadow-md ring-4 ring-white">
+                        <span className="text-base font-bold text-white">{idx + 1}</span>
                       </div>
 
-                      {/* Stage card */}
-                      <div className="group flex-1 rounded-2xl border border-[#E2E6E1] bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md">
+                      {/* Card */}
+                      <div className="flex-1 rounded-2xl border border-[#E8EDE6] bg-white p-6 shadow-[0_2px_12px_rgba(94,142,46,0.08)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(94,142,46,0.13)]">
+
+                        {/* Card header */}
                         <div className="flex items-start justify-between gap-4">
-                          <div className="flex-1">
-                            <p
-                              className="mb-1 text-[11px] font-bold uppercase tracking-widest"
-                              style={{ color: color.num }}
-                            >
+                          <div>
+                            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#7FB13D]">
                               {stageName}
                             </p>
-                            <div className="flex flex-wrap gap-1.5 mt-2">
-                              {moduleNames.map((mod) => (
-                                <span
-                                  key={mod}
-                                  className="rounded-full px-2.5 py-0.5 text-[11px] font-medium"
-                                  style={{ background: color.light, color: color.num }}
-                                >
-                                  {mod}
-                                </span>
-                              ))}
-                            </div>
-                            <p className="mt-3 text-xs text-[#9AA19B]">
-                              {available} of {total} lessons available
-                            </p>
+                            {/* Lesson count chip */}
+                            <span className="mt-2 inline-flex items-center rounded-full bg-[#EAF4DD] px-3 py-1 text-xs font-semibold text-[#5E8E2E]">
+                              {available} / {total} lessons available
+                            </span>
                           </div>
 
                           {/* Progress ring */}
                           <div className="relative flex-shrink-0">
-                            <ProgressRing percent={pct} size={56} />
+                            <svg width="56" height="56" className="-rotate-90">
+                              <circle cx="28" cy="28" r="20" fill="none" stroke="#EAF4DD" strokeWidth="4" />
+                              <circle
+                                cx="28" cy="28" r="20"
+                                fill="none"
+                                stroke="#7FB13D"
+                                strokeWidth="4"
+                                strokeDasharray={circ}
+                                strokeDashoffset={offset}
+                                strokeLinecap="round"
+                                style={{ transition: "stroke-dashoffset 1s ease" }}
+                              />
+                            </svg>
                             <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-[#5E8E2E]">
                               {pct}%
                             </span>
                           </div>
                         </div>
 
-                        {/* Module lesson counts */}
-                        <div className="mt-4 grid grid-cols-2 gap-2 border-t border-[#F1F3F0] pt-4 sm:grid-cols-3">
+                        {/* Progress bar */}
+                        <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-[#EAF4DD]">
+                          <div
+                            className="h-full rounded-full bg-[#7FB13D] transition-all duration-1000"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+
+                        {/* Module tags */}
+                        <div className="mt-4 flex flex-wrap gap-2">
                           {moduleNames.map((mod) => {
-                            const count = stageMap[stageName].modules[mod].length;
-                            const avail = stageMap[stageName].modules[mod].filter(
-                              (l) => l.videoUrl
-                            ).length;
+                            const modLessons = stageMap[stageName].modules[mod];
+                            const modAvail = modLessons.filter((l) => l.videoUrl).length;
                             return (
-                              <div key={mod} className="flex items-center gap-2">
-                                <div
-                                  className="h-1.5 w-1.5 rounded-full flex-shrink-0"
-                                  style={{ background: color.ring }}
-                                />
-                                <span className="truncate text-[11px] text-[#5F6661]">
-                                  {mod}
-                                  <span className="ml-1 text-[#9AA19B]">
-                                    ({avail}/{count})
-                                  </span>
-                                </span>
-                              </div>
+                              <span
+                                key={mod}
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-[#DDE8D4] bg-white px-2.5 py-1 text-[11px] font-medium text-[#5E8E2E]"
+                              >
+                                <span className="h-1.5 w-1.5 rounded-full bg-[#7FB13D]" />
+                                {mod}
+                                <span className="text-[#9AA19B]">({modAvail}/{modLessons.length})</span>
+                              </span>
                             );
                           })}
                         </div>
 
                         {/* CTA */}
-                        <div className="mt-4">
+                        <div className="mt-5 border-t border-[#F1F5EE] pt-4">
                           <Link
                             href="/learn"
-                            className="inline-flex items-center gap-1.5 text-xs font-semibold transition-colors"
-                            style={{ color: color.num }}
+                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#5E8E2E] transition-all hover:gap-2.5"
                           >
                             Start Stage {idx + 1}
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                               <path d="M5 12h14M12 5l7 7-7 7" />
                             </svg>
                           </Link>
@@ -295,16 +263,16 @@ export default function AcademyPage() {
                   );
                 })}
 
-                {/* Finish node */}
-                {!loading && stageNames.length > 0 && (
+                {/* Certification node */}
+                {stageNames.length > 0 && (
                   <div className="flex items-center gap-5">
-                    <div className="relative z-10 flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl border-2 border-dashed border-[#C4C9C5] bg-white">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C4C9C5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <div className="relative z-10 flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-[#C4C9C5] bg-white">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C4C9C5" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="8" r="6" />
                         <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
                       </svg>
                     </div>
-                    <div className="flex-1 rounded-2xl border border-dashed border-[#E2E6E1] bg-white/60 px-5 py-4">
+                    <div className="flex-1 rounded-2xl border border-dashed border-[#E8EDE6] bg-[#FAFCF8] px-6 py-4">
                       <p className="font-semibold text-[#9AA19B]">Certification</p>
                       <p className="mt-0.5 text-xs text-[#C4C9C5]">
                         Complete all stages to unlock your LimeChat Bot Builder certificate
