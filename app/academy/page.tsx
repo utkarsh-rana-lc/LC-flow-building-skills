@@ -98,6 +98,8 @@ export default function AcademyPage() {
     return map;
   }, [lessons]);
 
+  const stageNames = Object.keys(stageMap);
+
   return (
     <AppLayout>
       <div className="min-h-screen bg-white">
