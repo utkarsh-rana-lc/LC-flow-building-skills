@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { AppLayout } from "@/components/layout/app-layout";
 
 interface Lesson {
+  stage: string;
   module: string;
   order: number;
   title: string;
@@ -18,14 +19,17 @@ function parseCSV(csvText: string): Lesson[] {
   const lines = csvText.split("\n");
   const lessons: Lesson[] = [];
 
+  let lastStage = "";
+  let lastModule = "";
+
   for (let i = 1; i < lines.length; i++) {
     const line = lines[i].trim();
     if (!line) continue;
 
+    // Parse respecting quoted commas
     const values: string[] = [];
     let current = "";
     let inQuotes = false;
-
     for (let j = 0; j < line.length; j++) {
       const char = line[j];
       if (char === '"') {
@@ -39,15 +43,29 @@ function parseCSV(csvText: string): Lesson[] {
     }
     values.push(current.trim());
 
-    if (values.length >= 3 && values[2]) {
-      lessons.push({
-        module: values[0] || "",
-        order: parseInt(values[1]) || 0,
-        title: values[2] || "",
-        videoUrl: values[3] || "",
-        description: values[4] || "",
-      });
-    }
+    // col0=Stages, col1=Module, col2=Order, col3=Title, col4=VideoURL, col5=Description
+    const stage   = values[0]?.trim() || "";
+    const module  = values[1]?.trim() || "";
+    const order   = parseInt(values[2]?.trim() || "0") || 0;
+    const title   = values[3]?.trim() || "";
+    const videoUrl = values[4]?.trim() || "";
+    const description = values[5]?.trim() || "";
+
+    // Forward-fill stage and module
+    if (stage)  lastStage  = stage;
+    if (module) lastModule = module;
+
+    // Skip rows with no title
+    if (!title) continue;
+
+    lessons.push({
+      stage: lastStage,
+      module: lastModule,
+      order,
+      title,
+      videoUrl,
+      description,
+    });
   }
 
   return lessons;
@@ -63,23 +81,17 @@ export default function LearnPage() {
   useEffect(() => {
     async function fetchLessons() {
       try {
-        console.log("[v0] Fetching CSV from Google Sheets...");
         const response = await fetch(
           "https://docs.google.com/spreadsheets/d/e/2PACX-1vR4Hahijs0C135EAdtK9q_kQbAUecZRTIpSHSHL0srya9Zl-jsL2Z-WMV8yIF1pmOOuR87zazRz8k7V/pub?output=csv"
         );
-        console.log("[v0] Response status:", response.status);
         const csvText = await response.text();
-        console.log("[v0] CSV fetched, length:", csvText.length);
         const parsedLessons = parseCSV(csvText);
-        console.log("[v0] Parsed lessons count:", parsedLessons.length);
-        console.log("[v0] First lesson:", parsedLessons[0]);
         setLessons(parsedLessons);
 
         const firstWithVideo = parsedLessons.find((l) => l.videoUrl);
-        console.log("[v0] First lesson with video:", firstWithVideo);
         if (firstWithVideo) setSelectedLesson(firstWithVideo);
       } catch (error) {
-        console.error("[v0] Failed to fetch lessons:", error);
+        console.error("Failed to fetch lessons:", error);
       } finally {
         setLoading(false);
       }
@@ -88,7 +100,7 @@ export default function LearnPage() {
     fetchLessons();
   }, []);
 
-  // Filter lessons by search term across title, module, description
+  // Filter lessons by search term across title, module, stage, description
   const filteredLessons = useMemo(() => {
     if (!searchTerm.trim()) return lessons;
     const q = searchTerm.toLowerCase();
@@ -96,24 +108,29 @@ export default function LearnPage() {
       (l) =>
         l.title.toLowerCase().includes(q) ||
         l.module.toLowerCase().includes(q) ||
+        l.stage.toLowerCase().includes(q) ||
         l.description.toLowerCase().includes(q)
     );
   }, [lessons, searchTerm]);
 
-  // Group filtered lessons by module, sorted by order
-  const groupedLessons = useMemo(() => {
-    const groups: Record<string, Lesson[]> = {};
+  // Group: Stage → Module → sorted Lessons
+  const groupedByStage = useMemo(() => {
+    const stageMap: Record<string, Record<string, Lesson[]>> = {};
     for (const lesson of filteredLessons) {
-      if (!groups[lesson.module]) groups[lesson.module] = [];
-      groups[lesson.module].push(lesson);
+      if (!stageMap[lesson.stage]) stageMap[lesson.stage] = {};
+      if (!stageMap[lesson.stage][lesson.module]) stageMap[lesson.stage][lesson.module] = [];
+      stageMap[lesson.stage][lesson.module].push(lesson);
     }
-    for (const mod of Object.keys(groups)) {
-      groups[mod].sort((a, b) => a.order - b.order);
+    // Sort lessons within each module by order
+    for (const stage of Object.keys(stageMap)) {
+      for (const mod of Object.keys(stageMap[stage])) {
+        stageMap[stage][mod].sort((a, b) => a.order - b.order);
+      }
     }
-    return groups;
+    return stageMap;
   }, [filteredLessons]);
 
-  const moduleNames = Object.keys(groupedLessons);
+  const stageNames = Object.keys(groupedByStage);
 
   if (loading) {
     return (
@@ -144,6 +161,8 @@ export default function LearnPage() {
             <span className="text-[#E2E6E1]">/</span>
             {selectedLesson ? (
               <>
+                <span className="text-sm text-[#9AA19B]">{selectedLesson.stage}</span>
+                <span className="text-[#E2E6E1]">/</span>
                 <span className="text-sm text-[#9AA19B]">{selectedLesson.module}</span>
                 <span className="text-[#E2E6E1]">/</span>
                 <span className="max-w-xs truncate text-sm font-medium text-[#2F3431]">
@@ -200,67 +219,76 @@ export default function LearnPage() {
 
             {/* Lesson list */}
             <div className="flex-1 overflow-y-auto px-3 py-3">
-              {moduleNames.length === 0 ? (
+              {stageNames.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <Search className="mb-3 h-8 w-8 text-[#E2E6E1]" />
                   <p className="text-sm font-medium text-[#2F3431]">No results</p>
-                  <p className="mt-1 text-xs text-[#9AA19B]">
-                    Try a different search term
-                  </p>
+                  <p className="mt-1 text-xs text-[#9AA19B]">Try a different search term</p>
                 </div>
               ) : (
-                moduleNames.map((moduleName) => (
-                  <div key={moduleName} className="mb-5">
-                    <p className="mb-1.5 px-2 text-[11px] font-semibold uppercase tracking-wider text-[#9AA19B]">
-                      {moduleName}
+                stageNames.map((stageName) => (
+                  <div key={stageName} className="mb-6">
+                    {/* Stage heading */}
+                    <p className="mb-2 px-2 text-[11px] font-bold uppercase tracking-wider text-[#7FB13D]">
+                      {stageName}
                     </p>
-                    <div className="space-y-0.5">
-                      {groupedLessons[moduleName].map((lesson) => {
-                        const isActive =
-                          selectedLesson?.title === lesson.title &&
-                          selectedLesson?.module === lesson.module;
-                        const hasVideo = !!lesson.videoUrl;
 
-                        if (!hasVideo) {
-                          return (
-                            <div
-                              key={`${lesson.module}-${lesson.order}`}
-                              className="flex cursor-not-allowed items-center gap-2.5 rounded-lg px-2 py-2 text-sm text-[#C4C9C5]"
-                            >
-                              <PlayCircle className="h-4 w-4 flex-shrink-0" />
-                              <span className="flex-1 truncate">{lesson.title}</span>
-                              <span className="flex-shrink-0 rounded bg-[#F1F3F0] px-1.5 py-0.5 text-[10px] font-medium text-[#9AA19B]">
-                                Soon
-                              </span>
-                            </div>
-                          );
-                        }
+                    {Object.keys(groupedByStage[stageName]).map((moduleName) => (
+                      <div key={moduleName} className="mb-4">
+                        {/* Module sub-heading */}
+                        <p className="mb-1 px-2 text-[11px] font-semibold uppercase tracking-wider text-[#9AA19B]">
+                          {moduleName}
+                        </p>
+                        <div className="space-y-0.5">
+                          {groupedByStage[stageName][moduleName].map((lesson) => {
+                            const isActive =
+                              selectedLesson?.title === lesson.title &&
+                              selectedLesson?.module === lesson.module &&
+                              selectedLesson?.stage === lesson.stage;
+                            const hasVideo = !!lesson.videoUrl;
 
-                        return (
-                          <button
-                            key={`${lesson.module}-${lesson.order}`}
-                            onClick={() => {
-                              setSelectedLesson(lesson);
-                              setSidebarOpen(false);
-                            }}
-                            className={cn(
-                              "flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left text-sm transition-colors",
-                              isActive
-                                ? "bg-[#EAF4DD] font-medium text-[#5E8E2E]"
-                                : "text-[#5F6661] hover:bg-[#F8F9F7] hover:text-[#2F3431]"
-                            )}
-                          >
-                            <PlayCircle
-                              className={cn(
-                                "h-4 w-4 flex-shrink-0",
-                                isActive ? "text-[#7FB13D]" : "text-[#C4C9C5]"
-                              )}
-                            />
-                            <span className="flex-1 leading-snug">{lesson.title}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
+                            if (!hasVideo) {
+                              return (
+                                <div
+                                  key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
+                                  className="flex cursor-not-allowed items-center gap-2.5 rounded-lg px-2 py-2 text-sm text-[#C4C9C5]"
+                                >
+                                  <PlayCircle className="h-4 w-4 flex-shrink-0" />
+                                  <span className="flex-1 truncate">{lesson.title}</span>
+                                  <span className="flex-shrink-0 rounded bg-[#F1F3F0] px-1.5 py-0.5 text-[10px] font-medium text-[#9AA19B]">
+                                    Soon
+                                  </span>
+                                </div>
+                              );
+                            }
+
+                            return (
+                              <button
+                                key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
+                                onClick={() => {
+                                  setSelectedLesson(lesson);
+                                  setSidebarOpen(false);
+                                }}
+                                className={cn(
+                                  "flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left text-sm transition-colors",
+                                  isActive
+                                    ? "bg-[#EAF4DD] font-medium text-[#5E8E2E]"
+                                    : "text-[#5F6661] hover:bg-[#F8F9F7] hover:text-[#2F3431]"
+                                )}
+                              >
+                                <PlayCircle
+                                  className={cn(
+                                    "h-4 w-4 flex-shrink-0",
+                                    isActive ? "text-[#7FB13D]" : "text-[#C4C9C5]"
+                                  )}
+                                />
+                                <span className="flex-1 leading-snug">{lesson.title}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 ))
               )}
