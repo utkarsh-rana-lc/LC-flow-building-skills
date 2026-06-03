@@ -157,7 +157,7 @@ export default function AcademyPage() {
                   return (
                     <div
                       key={stageName}
-                      className="overflow-hidden rounded-xl border border-[#A8C98A] bg-[#C8DFB0] shadow-sm transition-shadow duration-200 hover:shadow-md"
+                      className="overflow-hidden rounded-xl border border-[#E8EDE6] bg-[#F5FAF0] shadow-sm transition-shadow duration-200 hover:shadow-md"
                     >
                       {/* Header */}
                       <button
@@ -187,7 +187,7 @@ export default function AcademyPage() {
 
                       {/* Expanded body — white background */}
                       {isOpen && (
-                        <div className="border-t border-[#A8C98A] bg-white px-6 pb-6 pt-5 rounded-b-lg">
+                        <div className="border-t border-[#E8EDE6] bg-white px-6 pb-6 pt-5 rounded-b-lg">
                           {moduleNames.map((moduleName, modIdx) => {
                             const moduleLessons = stageMap[stageName].modules[moduleName];
                             return (
