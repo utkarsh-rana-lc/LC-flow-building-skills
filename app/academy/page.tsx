@@ -157,7 +157,7 @@ export default function AcademyPage() {
                   return (
                     <div
                       key={stageName}
-                      className="overflow-hidden rounded-xl border border-[#C4D9B0] bg-[#DCEBC8] shadow-sm transition-shadow duration-200 hover:shadow-md"
+                      className="overflow-hidden rounded-xl border border-[#A8C98A] bg-[#C8DFB0] shadow-sm transition-shadow duration-200 hover:shadow-md"
                     >
                       {/* Header */}
                       <button
@@ -165,20 +165,20 @@ export default function AcademyPage() {
                         className="flex w-full items-center gap-5 px-6 py-5 text-left transition-colors"
                       >
                         {/* Numbered badge */}
-                        <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-[#EAF4DD]">
-                          <span className="text-base font-bold text-[#5E8E2E]">{idx + 1}</span>
+                        <div className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-[#5E8E2E] shadow-sm">
+                          <span className="text-base font-bold text-white">{idx + 1}</span>
                         </div>
 
                         <div className="flex-1 min-w-0">
                           <p className="text-base font-semibold text-[#2F3431]">{stageName}</p>
-                          <p className="mt-1 text-sm text-[#9CA3AF]">
+                          <p className="mt-1 text-sm text-[#5E7A3A]">
                             {moduleNames.length} {moduleNames.length === 1 ? "section" : "sections"} · {totalLessons} lessons
                           </p>
                         </div>
 
                         <svg
                           width="18" height="18" viewBox="0 0 24 24" fill="none"
-                          stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                          stroke="#5E8E2E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                           className={`flex-shrink-0 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
                         >
                           <path d="M6 9l6 6 6-6" />
@@ -187,7 +187,7 @@ export default function AcademyPage() {
 
                       {/* Expanded body — white background */}
                       {isOpen && (
-                        <div className="border-t border-[#C4D9B0] bg-white px-6 pb-6 pt-5 rounded-b-lg">
+                        <div className="border-t border-[#A8C98A] bg-white px-6 pb-6 pt-5 rounded-b-lg">
                           {moduleNames.map((moduleName, modIdx) => {
                             const moduleLessons = stageMap[stageName].modules[moduleName];
                             return (
