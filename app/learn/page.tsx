@@ -310,7 +310,7 @@ export default function LearnPage() {
             {selectedLesson ? (
               <>
                 {/* Video — full width, fills entire main area */}
-                <div className="h-full w-full flex-1 max-w-[1041px]">
+                <div className="mx-auto h-full w-full flex-1 max-w-[1041px]">
                   <iframe
                     key={selectedLesson.videoUrl}
                     src={selectedLesson.videoUrl}
