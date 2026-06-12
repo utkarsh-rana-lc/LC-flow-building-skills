@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, PlayCircle, Search, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AppLayout } from "@/components/layout/app-layout";
+import { useFullscreen } from "@/hooks/use-fullscreen";
 
 interface Lesson {
   stage: string;
@@ -131,6 +132,7 @@ export default function LearnPage() {
   }, [filteredLessons]);
 
   const stageNames = Object.keys(groupedByStage);
+  const fullscreen = useFullscreen();
 
   if (loading) {
     return (
@@ -149,39 +151,41 @@ export default function LearnPage() {
     <AppLayout>
       <div className="flex h-screen flex-col">
         {/* Top bar */}
-        <header className="flex h-14 flex-shrink-0 items-center justify-between border-b border-[#E2E6E1] bg-white px-5">
-          <div className="flex items-center gap-3">
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-1.5 text-sm font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Academy
-            </Link>
-            <span className="text-[#E2E6E1]">/</span>
-            {selectedLesson ? (
-              <>
-                <span className="text-sm text-[#9AA19B]">{selectedLesson.stage}</span>
-                <span className="text-[#E2E6E1]">/</span>
-                <span className="text-sm text-[#9AA19B]">{selectedLesson.module}</span>
-                <span className="text-[#E2E6E1]">/</span>
-                <span className="max-w-xs truncate text-sm font-medium text-[#2F3431]">
-                  {selectedLesson.title}
-                </span>
-              </>
-            ) : (
-              <span className="text-sm text-[#2F3431]">Bot Builder Academy</span>
-            )}
-          </div>
+        {!fullscreen && (
+          <header className="flex h-14 flex-shrink-0 items-center justify-between border-b border-[#E2E6E1] bg-white px-5">
+            <div className="flex items-center gap-3">
+              <Link
+                href="/dashboard"
+                className="flex items-center gap-1.5 text-sm font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Academy
+              </Link>
+              <span className="text-[#E2E6E1]">/</span>
+              {selectedLesson ? (
+                <>
+                  <span className="text-sm text-[#9AA19B]">{selectedLesson.stage}</span>
+                  <span className="text-[#E2E6E1]">/</span>
+                  <span className="text-sm text-[#9AA19B]">{selectedLesson.module}</span>
+                  <span className="text-[#E2E6E1]">/</span>
+                  <span className="max-w-xs truncate text-sm font-medium text-[#2F3431]">
+                    {selectedLesson.title}
+                  </span>
+                </>
+              ) : (
+                <span className="text-sm text-[#2F3431]">Bot Builder Academy</span>
+              )}
+            </div>
 
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-[#5F6661] hover:bg-[#F8F9F7] lg:hidden"
-          >
-            {sidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-          </button>
-        </header>
+            {/* Mobile toggle */}
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-[#5F6661] hover:bg-[#F8F9F7] lg:hidden"
+            >
+              {sidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </button>
+          </header>
+        )}
 
         <div className="flex flex-1 overflow-hidden">
           {/* Sidebar */}

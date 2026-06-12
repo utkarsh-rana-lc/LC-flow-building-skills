@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { stages } from "@/lib/data/courses";
 import { cn } from "@/lib/utils";
+import { useFullscreen } from "@/hooks/use-fullscreen";
 
 const lessonTypeIcons: Record<string, React.ElementType> = {
   video: PlayCircle,
@@ -32,6 +33,7 @@ export default function LessonPage() {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const fullscreen = useFullscreen();
 
   const stageId = params.stageId as string;
   const moduleId = params.moduleId as string;
@@ -118,16 +120,19 @@ export default function LessonPage() {
   return (
     <div className="min-h-screen">
       {/* Mobile Sidebar Toggle */}
-      <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="fixed bottom-4 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-[#7FB13D] text-white shadow-lg lg:hidden"
-      >
-        {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-      </button>
+      {!fullscreen && (
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="fixed bottom-4 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-[#7FB13D] text-white shadow-lg lg:hidden"
+        >
+          {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+      )}
 
       <div className="flex">
         {/* Sidebar */}
-        <aside
+        {!fullscreen && (
+          <aside
           className={cn(
             "fixed inset-y-0 left-0 z-40 w-80 transform border-r border-[#E2E6E1] bg-white transition-transform duration-200 lg:relative lg:translate-x-0",
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -220,45 +225,48 @@ export default function LessonPage() {
             </div>
           </div>
         </aside>
+        )}
 
         {/* Main Content */}
         <main className="min-h-screen flex-1">
           {/* Top Bar */}
-          <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[#E2E6E1] bg-white px-6 py-4">
-            <div className="flex items-center gap-3">
-              <div
-                className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-lg",
-                  currentLesson.type === "video" && "bg-[#EAF4DD]",
-                  currentLesson.type === "reading" && "bg-[#E3F3F9]",
-                  currentLesson.type === "exercise" && "bg-orange-50"
-                )}
-              >
-                <Icon
+          {!fullscreen && (
+            <header className="sticky top-0 z-30 flex items-center justify-between border-b border-[#E2E6E1] bg-white px-6 py-4">
+              <div className="flex items-center gap-3">
+                <div
                   className={cn(
-                    "h-5 w-5",
-                    currentLesson.type === "video" && "text-[#7FB13D]",
-                    currentLesson.type === "reading" && "text-[#1F8AB5]",
-                    currentLesson.type === "exercise" && "text-orange-500"
+                    "flex h-10 w-10 items-center justify-center rounded-lg",
+                    currentLesson.type === "video" && "bg-[#EAF4DD]",
+                    currentLesson.type === "reading" && "bg-[#E3F3F9]",
+                    currentLesson.type === "exercise" && "bg-orange-50"
                   )}
-                />
+                >
+                  <Icon
+                    className={cn(
+                      "h-5 w-5",
+                      currentLesson.type === "video" && "text-[#7FB13D]",
+                      currentLesson.type === "reading" && "text-[#1F8AB5]",
+                      currentLesson.type === "exercise" && "text-orange-500"
+                    )}
+                  />
+                </div>
+                <div>
+                  <p className="text-xs text-[#5F6661]">
+                    {currentSection.title} / {currentModule.title}
+                  </p>
+                  <h1 className="font-semibold text-[#2F3431]">
+                    {currentLesson.title}
+                  </h1>
+                </div>
               </div>
-              <div>
-                <p className="text-xs text-[#5F6661]">
-                  {currentSection.title} / {currentModule.title}
-                </p>
-                <h1 className="font-semibold text-[#2F3431]">
-                  {currentLesson.title}
-                </h1>
+              <div className="flex items-center gap-2">
+                <span className="flex items-center gap-1 text-sm text-[#5F6661]">
+                  <Clock className="h-4 w-4" />
+                  {currentLesson.duration}
+                </span>
               </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="flex items-center gap-1 text-sm text-[#5F6661]">
-                <Clock className="h-4 w-4" />
-                {currentLesson.duration}
-              </span>
-            </div>
-          </header>
+            </header>
+          )}
 
           {/* Content Area */}
           <div className="p-6">

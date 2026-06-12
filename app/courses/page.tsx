@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { AppLayout } from "@/components/layout/app-layout";
+import { useFullscreen } from "@/hooks/use-fullscreen";
 import { stages, getTotalLessonsInStage } from "@/lib/data/courses";
 
 export default function CoursesPage() {
@@ -10,20 +11,23 @@ export default function CoursesPage() {
   const stageBgColors = ["#EAF4DD", "#E5F0DA", "#DCE8D2", "#D4E0C9"];
   const durations = [12, 8, 10, 6];
   const userProgress = [35, 0, 0, 0];
+  const fullscreen = useFullscreen();
 
   return (
     <AppLayout>
       <div className="min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-10 border-b border-[#E2E6E1] bg-white">
-          <div className="flex h-14 items-center px-6">
-            <nav className="flex items-center gap-1.5 text-sm">
-              <Link href="/dashboard" className="font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]">Academy</Link>
-              <span className="text-[#9AA19B]">/</span>
-              <span className="text-[#2F3431]">Courses</span>
-            </nav>
-          </div>
-        </header>
+        {!fullscreen && (
+          <header className="sticky top-0 z-10 border-b border-[#E2E6E1] bg-white">
+            <div className="flex h-14 items-center px-6">
+              <nav className="flex items-center gap-1.5 text-sm">
+                <Link href="/dashboard" className="font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]">Academy</Link>
+                <span className="text-[#9AA19B]">/</span>
+                <span className="text-[#2F3431]">Courses</span>
+              </nav>
+            </div>
+          </header>
+        )}
 
         <div className="mx-auto max-w-4xl px-6 py-8">
           {/* Page Title */}

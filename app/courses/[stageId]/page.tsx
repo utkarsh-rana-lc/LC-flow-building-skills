@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { AppLayout } from "@/components/layout/app-layout";
+import { useFullscreen } from "@/hooks/use-fullscreen";
 import { stages } from "@/lib/data/courses";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +17,7 @@ export default function StagePage() {
   const stageNumber = Number.parseInt((params.stageId as string).replace("stage-", ""));
   const stage = stages.find((s) => s.number === stageNumber);
   const stageIndex = stageNumber - 1;
+  const fullscreen = useFullscreen();
 
   if (!stage) {
     return (
@@ -36,17 +38,19 @@ export default function StagePage() {
     <AppLayout>
       <div className="min-h-screen">
         {/* Header */}
-        <header className="sticky top-0 z-10 border-b border-[#E2E6E1] bg-white">
-          <div className="flex h-14 items-center px-6">
-            <nav className="flex items-center gap-1.5 text-sm">
-              <Link href="/dashboard" className="font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]">Academy</Link>
-              <span className="text-[#9AA19B]">/</span>
-              <Link href="/courses" className="font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]">Courses</Link>
-              <span className="text-[#9AA19B]">/</span>
-              <span className="text-[#2F3431]">Stage {stageNumber}</span>
-            </nav>
-          </div>
-        </header>
+        {!fullscreen && (
+          <header className="sticky top-0 z-10 border-b border-[#E2E6E1] bg-white">
+            <div className="flex h-14 items-center px-6">
+              <nav className="flex items-center gap-1.5 text-sm">
+                <Link href="/dashboard" className="font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]">Academy</Link>
+                <span className="text-[#9AA19B]">/</span>
+                <Link href="/courses" className="font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]">Courses</Link>
+                <span className="text-[#9AA19B]">/</span>
+                <span className="text-[#2F3431]">Stage {stageNumber}</span>
+              </nav>
+            </div>
+          </header>
+        )}
 
         <div className="mx-auto max-w-5xl px-6 py-8">
           {/* Stage Header Card */}
