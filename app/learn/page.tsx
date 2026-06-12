@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import { ArrowLeft, PlayCircle, Search, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -77,6 +77,28 @@ export default function LearnPage() {
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  // Handle fullscreen mode via URL parameter
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const isFullscreenRequested = params.get("fullscreen") === "true";
+
+    if (isFullscreenRequested && mainRef.current) {
+      const elem = mainRef.current;
+      const fullscreenMethod =
+        elem.requestFullscreen ||
+        (elem as any).webkitRequestFullscreen ||
+        (elem as any).mozRequestFullScreen ||
+        (elem as any).msRequestFullscreen;
+
+      if (fullscreenMethod) {
+        fullscreenMethod.call(elem).catch((err) => {
+          console.error("Failed to enter fullscreen:", err);
+        });
+      }
+    }
+  }, []);
 
   useEffect(() => {
     async function fetchLessons() {
@@ -306,7 +328,7 @@ export default function LearnPage() {
           )}
 
           {/* Main content */}
-          <main className="flex flex-1 flex-col overflow-hidden bg-white">
+          <main className="flex flex-1 flex-col overflow-hidden bg-white" ref={mainRef}>
             {selectedLesson ? (
               <>
                 {/* Video — full width, fills entire main area */}
