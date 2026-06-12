@@ -310,21 +310,18 @@ export default function LearnPage() {
           )}
 
           {/* Main content */}
-          <main className="flex flex-1 flex-col overflow-hidden bg-black">
+          <main className="flex flex-1 flex-col overflow-hidden bg-white">
             {selectedLesson ? (
-              <>
-                {/* Video — full width, fills entire main area */}
-                <div className="h-full w-full flex-1">
-                  <iframe
-                    key={selectedLesson.videoUrl}
-                    src={selectedLesson.videoUrl}
-                    className="h-full w-full border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    title={selectedLesson.title}
-                  />
-                </div>
-              </>
+              <div className="mx-auto h-full w-full flex-1 max-w-[1041px]">
+                <iframe
+                  key={selectedLesson.videoUrl}
+                  src={selectedLesson.videoUrl}
+                  className="h-full w-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  title={selectedLesson.title}
+                />
+              </div>
             ) : (
               <div className="flex flex-1 items-center justify-center">
                 <div className="text-center">
