@@ -57,7 +57,7 @@ export default function HelpPage() {
           </header>
         )}
 
-        <div className="mx-auto max-w-3xl px-6 py-8">
+        <div className="mx-auto max-w-4xl px-6 py-8">
           {/* Page Title */}
           <div className="mb-6">
             <h1 className="text-xl font-semibold text-[#2F3431]">Help Center</h1>
