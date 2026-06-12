@@ -306,7 +306,7 @@ export default function LearnPage() {
           )}
 
           {/* Main content */}
-          <main className="flex flex-1 flex-col overflow-hidden bg-black">
+          <main className="flex flex-1 flex-col overflow-hidden bg-white">
             {selectedLesson ? (
               <>
                 {/* Video — full width, fills entire main area */}
