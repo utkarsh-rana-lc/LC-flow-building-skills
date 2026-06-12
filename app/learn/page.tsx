@@ -312,11 +312,11 @@ export default function LearnPage() {
           {/* Main content */}
           <main className="flex flex-1 flex-col overflow-hidden bg-white">
             {selectedLesson ? (
-              <div className="mx-auto h-full w-full flex-1 max-w-[1041px]">
+              <div className="mx-auto h-full w-full flex-1 max-w-[1041px] overflow-hidden">
                 <iframe
                   key={selectedLesson.videoUrl}
                   src={selectedLesson.videoUrl}
-                  className="h-full w-full border-0"
+                  className="h-[calc(100%+72px)] w-full -translate-y-[72px] border-0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture"
                   allowFullScreen
                   title={selectedLesson.title}
