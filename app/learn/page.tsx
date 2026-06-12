@@ -315,7 +315,7 @@ export default function LearnPage() {
                     key={selectedLesson.videoUrl}
                     src={selectedLesson.videoUrl}
                     className="h-full w-full border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture"
                     allowFullScreen
                     title={selectedLesson.title}
                   />
