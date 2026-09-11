@@ -3,19 +3,32 @@
 // in a single place without touching component code.
 
 export const certificationLinks = {
-  notionGuideUrl: "https://www.notion.so/limechat-certification-guide",
+  notionGuideUrl:
+    "https://app.notion.com/p/limechat/LimeChat-Certification-Programme-3d6d792cd6c7803ea5c7f919892c0db9",
 
-  l0NotionUrl: "https://www.notion.so/limechat-certification-l0",
-  l1NotionUrl: "https://www.notion.so/limechat-certification-l1",
-  l2NotionUrl: "https://www.notion.so/limechat-certification-l2",
-  l3NotionUrl: "https://www.notion.so/limechat-certification-l3",
-  l4NotionUrl: "https://www.notion.so/limechat-certification-l4",
+  l0NotionUrl:
+    "https://app.notion.com/p/limechat/LEVEL-0-3d7d792cd6c7800ab9aadc1e0ba1eae3",
+  l1NotionUrl:
+    "https://app.notion.com/p/limechat/LEVEL-1-3d7d792cd6c780eba4b9f7187504a205",
+  l2NotionUrl:
+    "https://app.notion.com/p/limechat/LEVEL-2-3d7d792cd6c780cd9c12fc1fa8d804e1",
+  l3NotionUrl:
+    "https://app.notion.com/p/limechat/LEVEL-3-3d7d792cd6c780639e02d5761607e559",
+  l4NotionUrl:
+    "https://app.notion.com/p/limechat/Level-4-3d7d792cd6c78013a850da0dbb2b3d85",
 
-  l0SubmissionUrl: "https://www.notion.so/limechat-certification-l0-submit",
-  l1SubmissionUrl: "https://www.notion.so/limechat-certification-l1-submit",
-  l2SubmissionUrl: "https://www.notion.so/limechat-certification-l2-submit",
-  l3SubmissionUrl: "https://www.notion.so/limechat-certification-l3-submit",
-  l4SubmissionUrl: "https://www.notion.so/limechat-certification-l4-submit",
+  l0SubmissionUrl:
+    "https://docs.google.com/forms/d/1TcRqYdU0sOwcjR64c8c00J2JRf0mu4osGpkzchtoOjc/viewform",
+  l1SubmissionUrl:
+    "https://docs.google.com/forms/d/e/1FAIpQLSc85GCnRFkeZzZtMCTLO7lOLtGbwd_ePOJA2rWniNWHsOuL2w/viewform",
+  l2SubmissionUrl:
+    "https://docs.google.com/forms/d/e/1FAIpQLSf5Mcdp7p1DkO9QTIlm7GxwRGc94z97LErwj6CfpRwyvSkEEg/viewform",
+  // L3 submission form is not published in Notion yet; point to the L3 guide
+  // (where the form will live) until the Google Form link is available.
+  l3SubmissionUrl:
+    "https://app.notion.com/p/limechat/LEVEL-3-3d7d792cd6c780639e02d5761607e559",
+  l4SubmissionUrl:
+    "https://docs.google.com/forms/d/e/1FAIpQLSfC6-0RhnwO7i8tuXXM3mxpnLSc7H0niJ1AZ5CCu5_5YKzWZw/viewform",
 } as const;
 
 export interface CertificationLevel {
@@ -35,7 +48,7 @@ export const certificationLevels: CertificationLevel[] = [
   {
     id: "l0",
     code: "L0",
-    name: "Bot Understanding",
+    name: "Platform Fundamentals",
     description:
       "Understand existing bots, identify customer journeys and analyse bot behaviour from a user's perspective.",
     covers: "Learning + practical assignment + quiz",
@@ -45,7 +58,7 @@ export const certificationLevels: CertificationLevel[] = [
   {
     id: "l1",
     code: "L1",
-    name: "Core Bot Building",
+    name: "Click-Based Bot Building",
     description:
       "Build click-based, end-to-end bot journeys using core Agentic Studio building blocks.",
     covers: "Sub-assignments + main bot build + quiz",
@@ -55,7 +68,7 @@ export const certificationLevels: CertificationLevel[] = [
   {
     id: "l2",
     code: "L2",
-    name: "Advanced Bot Building",
+    name: "Agentic Bot Building",
     description:
       "Build more advanced bot journeys using structured logic, multiple flows, variables, integrations and complex use cases.",
     covers: "Advanced practical bot-building assignment + assessment",
@@ -65,7 +78,7 @@ export const certificationLevels: CertificationLevel[] = [
   {
     id: "l3",
     code: "L3",
-    name: "Production-Ready Bot Building",
+    name: "Advanced Bot Engineering",
     description:
       "Build a complete client bot from requirements, including APIs, validations, conditional logic, test cases and edge cases.",
     covers:
@@ -76,7 +89,7 @@ export const certificationLevels: CertificationLevel[] = [
   {
     id: "l4",
     code: "L4",
-    name: "Bot Review & Optimisation",
+    name: "Tool-Assisted Bot Building",
     description:
       "Review, test, debug and optimise bots using structured audits, test benches and the Bot Reviewer MCP.",
     covers:
