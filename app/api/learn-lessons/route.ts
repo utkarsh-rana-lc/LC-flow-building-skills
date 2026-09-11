@@ -6,12 +6,16 @@ import { NextResponse } from "next/server";
 const SHEET_CSV_URL =
   "https://docs.google.com/spreadsheets/d/17ow6nAKB0v6mESRhoXqxEbVf9-ADECs7sG_jtoLY2uM/export?format=csv&gid=0";
 
+// Always run fresh so sheet edits (added/removed videos) show up immediately.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function GET() {
   try {
     // Fetched server-side to avoid the CORS redirect issue of Google's
-    // export endpoint. Revalidated periodically so sheet edits show up.
+    // export endpoint. `no-store` bypasses the Next data cache entirely.
     const response = await fetch(SHEET_CSV_URL, {
-      next: { revalidate: 60 },
+      cache: "no-store",
     });
 
     if (!response.ok) {

@@ -81,7 +81,9 @@ export default function LearnPage() {
   useEffect(() => {
     async function fetchLessons() {
       try {
-        const response = await fetch("/api/learn-lessons");
+        const response = await fetch(`/api/learn-lessons?t=${Date.now()}`, {
+          cache: "no-store",
+        });
         const csvText = await response.text();
         const parsedLessons = parseCSV(csvText);
         setLessons(parsedLessons);
