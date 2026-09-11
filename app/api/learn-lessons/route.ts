@@ -11,7 +11,7 @@ export async function GET() {
     // Fetched server-side to avoid the CORS redirect issue of Google's
     // export endpoint. Revalidated periodically so sheet edits show up.
     const response = await fetch(SHEET_CSV_URL, {
-      next: { revalidate: 300 },
+      next: { revalidate: 60 },
     });
 
     if (!response.ok) {
@@ -27,7 +27,7 @@ export async function GET() {
       status: 200,
       headers: {
         "Content-Type": "text/csv; charset=utf-8",
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        "Cache-Control": "no-store",
       },
     });
   } catch {
