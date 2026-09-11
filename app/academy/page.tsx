@@ -46,7 +46,7 @@ export default function AcademyPage() {
             {/* Card 1 — Learning Academy (green & white mix) */}
             <Link
               href="/learn"
-              className="group flex flex-col rounded-xl border border-[#E4EFD7] bg-gradient-to-b from-[#DCEEC4] via-[#EDF6E1] to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
+              className="group flex flex-col rounded-xl border border-[#E4EFD7] bg-gradient-to-b from-[#DBEFC0] from-0% via-[#F1F8E7] via-45% to-white to-90% p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
             >
               <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#5E8E2E] shadow-sm">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -79,7 +79,7 @@ export default function AcademyPage() {
             {/* Card 2 — Certification Programme (white) */}
             <Link
               href="/certifications"
-              className="group flex flex-col rounded-xl border border-[#E4EFD7] bg-gradient-to-b from-[#DCEEC4] via-[#EDF6E1] to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
+              className="group flex flex-col rounded-xl border border-[#E4EFD7] bg-gradient-to-b from-[#DBEFC0] from-0% via-[#F1F8E7] via-45% to-white to-90% p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
             >
               <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#5E8E2E] shadow-sm">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
