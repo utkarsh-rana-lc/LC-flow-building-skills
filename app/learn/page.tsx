@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { AppLayout } from "@/components/layout/app-layout";
 
 interface Lesson {
-  stage: string;
   module: string;
   order: number;
   title: string;
@@ -19,7 +18,6 @@ function parseCSV(csvText: string): Lesson[] {
   const lines = csvText.split("\n");
   const lessons: Lesson[] = [];
 
-  let lastStage = "";
   let lastModule = "";
 
   for (let i = 1; i < lines.length; i++) {
@@ -43,23 +41,20 @@ function parseCSV(csvText: string): Lesson[] {
     }
     values.push(current.trim());
 
-    // col0=Stages, col1=Module, col2=Order, col3=Title, col4=VideoURL, col5=Description
-    const stage   = values[0]?.trim() || "";
-    const module  = values[1]?.trim() || "";
-    const order   = parseInt(values[2]?.trim() || "0") || 0;
-    const title   = values[3]?.trim() || "";
-    const videoUrl = values[4]?.trim() || "";
-    const description = values[5]?.trim() || "";
+    // col0=Module, col1=Order, col2=Title, col3=VideoURL, col4=Description
+    const module  = values[0]?.trim() || "";
+    const order   = parseInt(values[1]?.trim() || "0") || 0;
+    const title   = values[2]?.trim() || "";
+    const videoUrl = values[3]?.trim() || "";
+    const description = values[4]?.trim() || "";
 
-    // Forward-fill stage and module
-    if (stage)  lastStage  = stage;
+    // Forward-fill module (only the first row of each module names it)
     if (module) lastModule = module;
 
     // Skip rows with no title
     if (!title) continue;
 
     lessons.push({
-      stage: lastStage,
       module: lastModule,
       order,
       title,
@@ -108,29 +103,24 @@ export default function LearnPage() {
       (l) =>
         l.title.toLowerCase().includes(q) ||
         l.module.toLowerCase().includes(q) ||
-        l.stage.toLowerCase().includes(q) ||
         l.description.toLowerCase().includes(q)
     );
   }, [lessons, searchTerm]);
 
-  // Group: Stage → Module → sorted Lessons
-  const groupedByStage = useMemo(() => {
-    const stageMap: Record<string, Record<string, Lesson[]>> = {};
+  // Group: Module → sorted Lessons (insertion order preserves the sheet order)
+  const groupedByModule = useMemo(() => {
+    const moduleMap: Record<string, Lesson[]> = {};
     for (const lesson of filteredLessons) {
-      if (!stageMap[lesson.stage]) stageMap[lesson.stage] = {};
-      if (!stageMap[lesson.stage][lesson.module]) stageMap[lesson.stage][lesson.module] = [];
-      stageMap[lesson.stage][lesson.module].push(lesson);
+      if (!moduleMap[lesson.module]) moduleMap[lesson.module] = [];
+      moduleMap[lesson.module].push(lesson);
     }
-    // Sort lessons within each module by order
-    for (const stage of Object.keys(stageMap)) {
-      for (const mod of Object.keys(stageMap[stage])) {
-        stageMap[stage][mod].sort((a, b) => a.order - b.order);
-      }
+    for (const mod of Object.keys(moduleMap)) {
+      moduleMap[mod].sort((a, b) => a.order - b.order);
     }
-    return stageMap;
+    return moduleMap;
   }, [filteredLessons]);
 
-  const stageNames = Object.keys(groupedByStage);
+  const moduleNames = Object.keys(groupedByModule);
 
   if (loading) {
     return (
@@ -161,8 +151,6 @@ export default function LearnPage() {
             <span className="text-[#E2E6E1]">/</span>
             {selectedLesson ? (
               <>
-                <span className="text-sm text-[#9AA19B]">{selectedLesson.stage}</span>
-                <span className="text-[#E2E6E1]">/</span>
                 <span className="text-sm text-[#9AA19B]">{selectedLesson.module}</span>
                 <span className="text-[#E2E6E1]">/</span>
                 <span className="max-w-xs truncate text-sm font-medium text-[#2F3431]">
@@ -219,76 +207,66 @@ export default function LearnPage() {
 
             {/* Lesson list */}
             <div className="flex-1 overflow-y-auto px-3 py-3">
-              {stageNames.length === 0 ? (
+              {moduleNames.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <Search className="mb-3 h-8 w-8 text-[#E2E6E1]" />
                   <p className="text-sm font-medium text-[#2F3431]">No results</p>
                   <p className="mt-1 text-xs text-[#9AA19B]">Try a different search term</p>
                 </div>
               ) : (
-                stageNames.map((stageName) => (
-                  <div key={stageName} className="mb-6">
-                    {/* Stage heading */}
+                moduleNames.map((moduleName) => (
+                  <div key={moduleName} className="mb-5">
+                    {/* Module heading */}
                     <p className="mb-2 px-2 text-[11px] font-bold uppercase tracking-wider text-[#7FB13D]">
-                      {stageName}
+                      {moduleName}
                     </p>
+                    <div className="space-y-0.5">
+                      {groupedByModule[moduleName].map((lesson) => {
+                        const isActive =
+                          selectedLesson?.title === lesson.title &&
+                          selectedLesson?.module === lesson.module;
+                        const hasVideo = !!lesson.videoUrl;
 
-                    {Object.keys(groupedByStage[stageName]).map((moduleName) => (
-                      <div key={moduleName} className="mb-4">
-                        {/* Module sub-heading */}
-                        <p className="mb-1 px-2 text-[11px] font-semibold uppercase tracking-wider text-[#9AA19B]">
-                          {moduleName}
-                        </p>
-                        <div className="space-y-0.5">
-                          {groupedByStage[stageName][moduleName].map((lesson) => {
-                            const isActive =
-                              selectedLesson?.title === lesson.title &&
-                              selectedLesson?.module === lesson.module &&
-                              selectedLesson?.stage === lesson.stage;
-                            const hasVideo = !!lesson.videoUrl;
+                        if (!hasVideo) {
+                          return (
+                            <div
+                              key={`${lesson.module}-${lesson.order}-${lesson.title}`}
+                              className="flex cursor-not-allowed items-center gap-2.5 rounded-lg px-2 py-2 text-sm text-[#C4C9C5]"
+                            >
+                              <PlayCircle className="h-4 w-4 flex-shrink-0" />
+                              <span className="flex-1 truncate">{lesson.title}</span>
+                              <span className="flex-shrink-0 rounded bg-[#F1F3F0] px-1.5 py-0.5 text-[10px] font-medium text-[#9AA19B]">
+                                Soon
+                              </span>
+                            </div>
+                          );
+                        }
 
-                            if (!hasVideo) {
-                              return (
-                                <div
-                                  key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
-                                  className="flex cursor-not-allowed items-center gap-2.5 rounded-lg px-2 py-2 text-sm text-[#C4C9C5]"
-                                >
-                                  <PlayCircle className="h-4 w-4 flex-shrink-0" />
-                                  <span className="flex-1 truncate">{lesson.title}</span>
-                                  <span className="flex-shrink-0 rounded bg-[#F1F3F0] px-1.5 py-0.5 text-[10px] font-medium text-[#9AA19B]">
-                                    Soon
-                                  </span>
-                                </div>
-                              );
-                            }
-
-                            return (
-                              <button
-                                key={`${lesson.stage}-${lesson.module}-${lesson.order}`}
-                                onClick={() => {
-                                  setSelectedLesson(lesson);
-                                  setSidebarOpen(false);
-                                }}
-                                className={cn(
-                                  "flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left text-sm transition-colors",
-                                  isActive
-                                    ? "bg-[#EAF4DD] font-medium text-[#5E8E2E]"
-                                    : "text-[#5F6661] hover:bg-[#F8F9F7] hover:text-[#2F3431]"
-                                )}
-                              >
-                                <PlayCircle
-                                  className={cn(
-                                    "h-4 w-4 flex-shrink-0",
-                                    isActive ? "text-[#7FB13D]" : "text-[#C4C9C5]"
-                                  )}
-                                />
-                                <span className="flex-1 leading-snug">{lesson.title}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
+                        return (
+                          <button
+                            key={`${lesson.module}-${lesson.order}-${lesson.title}`}
+                            onClick={() => {
+                              setSelectedLesson(lesson);
+                              setSidebarOpen(false);
+                            }}
+                            className={cn(
+                              "flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left text-sm transition-colors",
+                              isActive
+                                ? "bg-[#EAF4DD] font-medium text-[#5E8E2E]"
+                                : "text-[#5F6661] hover:bg-[#F8F9F7] hover:text-[#2F3431]"
+                            )}
+                          >
+                            <PlayCircle
+                              className={cn(
+                                "h-4 w-4 flex-shrink-0",
+                                isActive ? "text-[#7FB13D]" : "text-[#C4C9C5]"
+                              )}
+                            />
+                            <span className="flex-1 leading-snug">{lesson.title}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
                 ))
               )}

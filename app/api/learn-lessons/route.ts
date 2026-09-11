@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 
 // Learning Academy content is maintained in this Google Sheet.
 // Update the sheet (add/remove videos) and the app reflects it automatically.
-// Sheet: https://docs.google.com/spreadsheets/d/17ow6nAKB0v6mESRhoXqxEbVf9-ADECs7sG_jtoLY2uM/edit?gid=0
+// Sheet: https://docs.google.com/spreadsheets/d/19iYuWtKVA99V5oYCwxgd3II_gNvYjytu23FoZRLzb2s/edit?gid=0
 const SHEET_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/17ow6nAKB0v6mESRhoXqxEbVf9-ADECs7sG_jtoLY2uM/export?format=csv&gid=0";
+  "https://docs.google.com/spreadsheets/d/19iYuWtKVA99V5oYCwxgd3II_gNvYjytu23FoZRLzb2s/export?format=csv&gid=0";
 
 // Always run fresh so sheet edits (added/removed videos) show up immediately.
 export const dynamic = "force-dynamic";
