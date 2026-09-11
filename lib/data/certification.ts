@@ -23,10 +23,8 @@ export const certificationLinks = {
     "https://docs.google.com/forms/d/e/1FAIpQLSc85GCnRFkeZzZtMCTLO7lOLtGbwd_ePOJA2rWniNWHsOuL2w/viewform",
   l2SubmissionUrl:
     "https://docs.google.com/forms/d/e/1FAIpQLSf5Mcdp7p1DkO9QTIlm7GxwRGc94z97LErwj6CfpRwyvSkEEg/viewform",
-  // L3 submission form is not published in Notion yet; point to the L3 guide
-  // (where the form will live) until the Google Form link is available.
   l3SubmissionUrl:
-    "https://app.notion.com/p/limechat/LEVEL-3-3d7d792cd6c780639e02d5761607e559",
+    "https://docs.google.com/forms/d/e/1FAIpQLSfjElPjaAGJTGRweMnuN5AYKfHao9Iotp0Z-Uoex-RNOJsllA/viewform",
   l4SubmissionUrl:
     "https://docs.google.com/forms/d/e/1FAIpQLSfC6-0RhnwO7i8tuXXM3mxpnLSc7H0niJ1AZ5CCu5_5YKzWZw/viewform",
 } as const;
