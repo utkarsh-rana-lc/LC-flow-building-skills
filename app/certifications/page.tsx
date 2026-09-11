@@ -111,7 +111,7 @@ export default function CertificationsPage() {
           </div>
 
           {/* 1. Complete Notion Guide */}
-          <section className="mb-10 overflow-hidden rounded-2xl border border-[#DCE8D2] bg-[#EAF4DD] shadow-sm">
+          <section className="mb-10 overflow-hidden rounded-2xl border border-[#E7F0DC] bg-[#F4FAEB] shadow-sm">
             <div className="flex flex-col gap-5 p-6 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-start gap-4">
                 <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#5E8E2E] text-white">
