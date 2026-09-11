@@ -46,9 +46,9 @@ export default function AcademyPage() {
             {/* Card 1 — Learning Academy (green & white mix) */}
             <Link
               href="/learn"
-              className="group flex flex-col rounded-xl border border-[#E1EDD3] bg-gradient-to-br from-[#EAF4DD] via-white to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
+              className="group flex flex-col rounded-xl border border-[#E1EDD3] bg-gradient-to-r from-[#D6E9BE] via-[#EDF6E1] to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
             >
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#D9EBC4]">
+              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#E6F2D6]">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4E7926" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
                   <path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5" />
@@ -79,20 +79,20 @@ export default function AcademyPage() {
             {/* Card 2 — Certification Programme (white) */}
             <Link
               href="/certifications"
-              className="group flex flex-col rounded-xl border border-[#E1EDD3] bg-gradient-to-bl from-[#EAF4DD] via-white to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
+              className="group flex flex-col rounded-xl border border-[#E1EDD3] bg-gradient-to-r from-[#D6E9BE] via-[#EDF6E1] to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
             >
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#D9EBC4]">
+              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#E6F2D6]">
                 <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4E7926" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="8" r="6" />
                   <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
                 </svg>
               </div>
 
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-[#7FB13D]">
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-[#4E7926]">
                 Apply &amp; Validate
               </p>
               <h2 className="mt-1.5 text-lg font-bold text-[#2F3431]">Certification Programme</h2>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-[#6B7280]">
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-[#5F6661]">
                 Put your Agentic Studio skills into practice through hands-on assignments, testing, review and progressive certification from L0 to L4.
               </p>
 
