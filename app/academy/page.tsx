@@ -134,6 +134,40 @@ export default function AcademyPage() {
             </div>
           </section>
 
+          {/* Certification Programme entry point */}
+          <section className="mb-12">
+            <Link
+              href="/certifications"
+              className="group flex items-center gap-5 overflow-hidden rounded-xl border border-[#5E8E2E] bg-gradient-to-br from-[#5E8E2E] to-[#4A7A24] p-6 shadow-sm transition-all hover:shadow-md"
+            >
+              <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-white/15">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="8" r="6" />
+                  <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+                </svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-white/70">
+                  Certification Programme
+                </p>
+                <h2 className="mt-1 text-lg font-bold text-white">
+                  LimeChat Bot Builder Certification
+                </h2>
+                <p className="mt-1 text-sm leading-relaxed text-white/80">
+                  Progress through L0 → L4, build real bots, and get certified in Agentic Studio.
+                </p>
+              </div>
+              <svg
+                width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                className="flex-shrink-0 transition-transform group-hover:translate-x-1"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
+          </section>
+
           {/* Stage accordions */}
           <section>
             <h2 className="mb-6 text-lg font-semibold text-[#2F3431]">Browse by Stage</h2>
