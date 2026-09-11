@@ -111,17 +111,17 @@ export default function CertificationsPage() {
           </div>
 
           {/* 1. Complete Notion Guide */}
-          <section className="mb-10 overflow-hidden rounded-2xl border border-[#5E8E2E] bg-gradient-to-br from-[#5E8E2E] to-[#4A7A24] shadow-sm">
+          <section className="mb-10 overflow-hidden rounded-2xl border border-[#DCE8D2] bg-[#EAF4DD] shadow-sm">
             <div className="flex flex-col gap-5 p-6 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-white/15 text-white">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#5E8E2E] text-white">
                   <BookIcon />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-white">
+                  <h2 className="text-lg font-semibold text-[#2F3431]">
                     Complete Certification Guide
                   </h2>
-                  <p className="mt-1 max-w-md text-sm leading-relaxed text-white/80">
+                  <p className="mt-1 max-w-md text-sm leading-relaxed text-[#5E8E2E]">
                     Find the complete requirements, assignments, evaluation
                     criteria and submission instructions for every level.
                   </p>
@@ -131,7 +131,7 @@ export default function CertificationsPage() {
                 href={certificationLinks.notionGuideUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex flex-shrink-0 items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#5E8E2E] transition-all hover:bg-[#F5FAF0] hover:shadow-md"
+                className="inline-flex flex-shrink-0 items-center justify-center gap-2 rounded-full bg-[#5E8E2E] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#4A7A24] hover:shadow-md"
               >
                 View Guide in Notion
                 <ArrowRight />
