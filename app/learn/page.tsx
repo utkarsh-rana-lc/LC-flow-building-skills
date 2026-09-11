@@ -81,9 +81,7 @@ export default function LearnPage() {
   useEffect(() => {
     async function fetchLessons() {
       try {
-        const response = await fetch(
-          "https://docs.google.com/spreadsheets/d/e/2PACX-1vR4Hahijs0C135EAdtK9q_kQbAUecZRTIpSHSHL0srya9Zl-jsL2Z-WMV8yIF1pmOOuR87zazRz8k7V/pub?output=csv"
-        );
+        const response = await fetch("/api/learn-lessons");
         const csvText = await response.text();
         const parsedLessons = parseCSV(csvText);
         setLessons(parsedLessons);
