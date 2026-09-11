@@ -35,10 +35,21 @@ export default function AcademyPage() {
                 Your home to master LimeChat&apos;s Agentic Studio — learn every node, flow, and agent at your own pace, then validate your skills through progressive certification.
               </p>
 
-              <div className="mt-6 flex items-center justify-center gap-2 text-xs font-medium text-[#5F6661]">
-                <span className="rounded-full bg-[#EAF4DD] px-3 py-1 text-[#4E7926]">Learn</span>
-                <span className="text-[#D4D9D4]">→</span>
-                <span className="rounded-full bg-[#EAF4DD] px-3 py-1 text-[#4E7926]">Certify</span>
+              <div className="mx-auto mt-8 flex max-w-md items-center justify-center gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#5E8E2E] text-xs font-bold text-white">1</span>
+                  <span className="text-sm font-semibold text-[#2F3431]">Learn</span>
+                </div>
+                <span className="h-px w-8 bg-[#CDE3B3]" />
+                <div className="flex items-center gap-2">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#5E8E2E] text-xs font-bold text-white">2</span>
+                  <span className="text-sm font-semibold text-[#2F3431]">Practice</span>
+                </div>
+                <span className="h-px w-8 bg-[#CDE3B3]" />
+                <div className="flex items-center gap-2">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#5E8E2E] text-xs font-bold text-white">3</span>
+                  <span className="text-sm font-semibold text-[#2F3431]">Certify</span>
+                </div>
               </div>
             </div>
           </section>
@@ -66,7 +77,7 @@ export default function AcademyPage() {
                 Learn LimeChat&apos;s Agentic Studio through practical, structured learning content and build your understanding at your own pace.
               </p>
 
-              <span className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#5E8E2E] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all group-hover:bg-[#4E7926]">
+              <span className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-[#CDE3B3] bg-white px-4 py-2.5 text-sm font-semibold text-[#5E8E2E] transition-all group-hover:border-[#5E8E2E] group-hover:bg-[#F5FAF0]">
                 Explore Learning Academy
                 <svg
                   width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -99,7 +110,7 @@ export default function AcademyPage() {
                 Put your Agentic Studio skills into practice through hands-on assignments, testing, review and progressive certification from L0 to L4.
               </p>
 
-              <span className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-[#CDE3B3] bg-white px-4 py-2.5 text-sm font-semibold text-[#5E8E2E] transition-all group-hover:border-[#5E8E2E] group-hover:bg-[#F5FAF0]">
+              <span className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#5E8E2E] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all group-hover:bg-[#4E7926]">
                 Explore Certification
                 <svg
                   width="16" height="16" viewBox="0 0 24 24" fill="none"
