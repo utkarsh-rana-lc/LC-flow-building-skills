@@ -32,7 +32,7 @@ export default function AcademyPage() {
 
               <h1 className="text-2xl font-bold text-[#2F3431]">Agentic Studio Learning Academy</h1>
               <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-[#6B7280]">
-                Your home to master LimeChat&apos;s Agentic Studio — learn at your own pace, build practical skills, and validate them through certification.
+                Your home to master LimeChat&apos;s Agentic Studio — learn, build, and validate your skills.
               </p>
             </div>
           </section>
@@ -46,10 +46,10 @@ export default function AcademyPage() {
             {/* Card 1 — Learning Academy (green & white mix) */}
             <Link
               href="/learn"
-              className="group flex flex-col rounded-xl border border-[#E1EDD3] bg-gradient-to-r from-[#D6E9BE] via-[#EDF6E1] to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
+              className="group flex flex-col rounded-xl border border-[#E4EFD7] bg-gradient-to-b from-[#EAF4DD] via-[#F5FAF0] to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
             >
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#E6F2D6]">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4E7926" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#5E8E2E] shadow-sm">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
                   <path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5" />
                 </svg>
@@ -79,10 +79,10 @@ export default function AcademyPage() {
             {/* Card 2 — Certification Programme (white) */}
             <Link
               href="/certifications"
-              className="group flex flex-col rounded-xl border border-[#E1EDD3] bg-gradient-to-r from-[#D6E9BE] via-[#EDF6E1] to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
+              className="group flex flex-col rounded-xl border border-[#E4EFD7] bg-gradient-to-b from-[#EAF4DD] via-[#F5FAF0] to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
             >
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#E6F2D6]">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4E7926" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#5E8E2E] shadow-sm">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="8" r="6" />
                   <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
                 </svg>
