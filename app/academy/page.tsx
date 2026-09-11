@@ -32,27 +32,13 @@ export default function AcademyPage() {
 
               <h1 className="text-2xl font-bold text-[#2F3431]">Agentic Studio Learning Academy</h1>
               <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-[#6B7280]">
-                Your home to master LimeChat&apos;s Agentic Studio — learn every node, flow, and agent at your own pace, then validate your skills through progressive certification.
+                Your home to master LimeChat&apos;s Agentic Studio — learn at your own pace, build practical skills, and validate them through certification.
               </p>
-
-              <div className="mx-auto mt-8 flex max-w-md items-center justify-center gap-3">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#5E8E2E] text-xs font-bold text-white">1</span>
-                  <span className="text-sm font-semibold text-[#2F3431]">Learn</span>
-                </div>
-                <span className="h-px w-8 bg-[#CDE3B3]" />
-                <div className="flex items-center gap-2">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#5E8E2E] text-xs font-bold text-white">2</span>
-                  <span className="text-sm font-semibold text-[#2F3431]">Practice</span>
-                </div>
-                <span className="h-px w-8 bg-[#CDE3B3]" />
-                <div className="flex items-center gap-2">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#5E8E2E] text-xs font-bold text-white">3</span>
-                  <span className="text-sm font-semibold text-[#2F3431]">Certify</span>
-                </div>
-              </div>
             </div>
           </section>
+
+          {/* Choose your path */}
+          <h2 className="mb-4 text-sm font-semibold text-[#2F3431]">Choose your path</h2>
 
           {/* Two equal paths */}
           <section className="grid grid-cols-1 gap-5 md:grid-cols-2">
@@ -60,10 +46,10 @@ export default function AcademyPage() {
             {/* Card 1 — Learning Academy (green & white mix) */}
             <Link
               href="/learn"
-              className="group flex flex-col rounded-xl border border-[#CDE3B3] bg-gradient-to-b from-[#EAF4DD] to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
+              className="group flex flex-col rounded-xl border border-[#E1EDD3] bg-gradient-to-br from-[#EAF4DD] via-white to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
             >
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#5E8E2E] shadow-sm">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#D9EBC4]">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4E7926" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
                   <path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5" />
                 </svg>
@@ -77,7 +63,7 @@ export default function AcademyPage() {
                 Learn LimeChat&apos;s Agentic Studio through practical, structured learning content and build your understanding at your own pace.
               </p>
 
-              <span className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-[#CDE3B3] bg-white px-4 py-2.5 text-sm font-semibold text-[#5E8E2E] transition-all group-hover:border-[#5E8E2E] group-hover:bg-[#F5FAF0]">
+              <span className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#5E8E2E] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all group-hover:bg-[#4E7926]">
                 Explore Learning Academy
                 <svg
                   width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -93,10 +79,10 @@ export default function AcademyPage() {
             {/* Card 2 — Certification Programme (white) */}
             <Link
               href="/certifications"
-              className="group flex flex-col rounded-xl border border-[#E8EDE6] bg-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
+              className="group flex flex-col rounded-xl border border-[#E1EDD3] bg-gradient-to-bl from-[#EAF4DD] via-white to-white p-7 shadow-sm transition-all hover:border-[#5E8E2E] hover:shadow-md"
             >
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#EAF4DD]">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#5E8E2E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-xl bg-[#D9EBC4]">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4E7926" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="8" r="6" />
                   <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
                 </svg>
