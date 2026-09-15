@@ -21,7 +21,7 @@ export default function AcademyPage() {
 
           {/* Hero card */}
           <section className="mb-10 overflow-hidden rounded-xl border border-[#E8EDE6] bg-white">
-            <div className="bg-gradient-to-b from-[#E9F6D6] from-0% via-[#F4FAEB] via-35% to-white to-75% px-10 py-12 text-center">
+            <div className="bg-gradient-to-b from-[#E9F6D6] from-0% via-[#EFF8DE] via-22% to-white to-55% px-10 py-12 text-center">
               {/* Graduation cap badge */}
               <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#5E8E2E] shadow-lg">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
