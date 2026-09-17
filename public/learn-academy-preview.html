@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-white">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LimeChat Learning Academy — Preview</title>
+    <style>
+      :root {
+        --rail: #4c7a2c;
+        --accent: #7fb13d;
+        --accent-strong: #6ba02f;
+        --text: #2f3431;
+        --muted: #5f6661;
+        --border: #e2e6e1;
+        --bg: #f8f9f7;
+        --sidebar-w: 300px;
+      }
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+      }
+      /* Left icon rail */
+      .rail {
+        width: 64px;
+        flex-shrink: 0;
+        background: var(--rail);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 16px;
+        gap: 20px;
+      }
+      .rail .logo {
+        width: 40px; height: 40px;
+        background: #fff;
+        border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 800; color: var(--accent-strong); font-size: 20px;
+      }
+      .rail .nav-icon {
+        width: 40px; height: 40px;
+        display: flex; align-items: center; justify-content: center;
+        color: #fff; opacity: .9; border-radius: 10px;
+      }
+      .rail .nav-icon.active { background: rgba(255,255,255,.18); }
+      /* Lesson sidebar */
+      .sidebar {
+        width: var(--sidebar-w);
+        flex-shrink: 0;
+        background: #fff;
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .sidebar-head {
+        padding: 18px 18px 14px;
+        border-bottom: 1px solid var(--border);
+      }
+      .sidebar-head h2 { font-size: 15px; font-weight: 700; }
+      .sidebar-head p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+      .lesson-list { flex: 1; overflow-y: auto; padding: 10px 10px 24px; }
+      .module-title {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+        color: var(--accent-strong);
+        padding: 16px 10px 6px;
+      }
+      .lesson-item {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        width: 100%;
+        text-align: left;
+        border: none;
+        background: transparent;
+        border-radius: 8px;
+        padding: 9px 10px;
+        cursor: pointer;
+        font: inherit;
+        color: var(--text);
+        line-height: 1.35;
+      }
+      .lesson-item:hover { background: var(--bg); }
+      .lesson-item.active { background: #eef6e2; color: var(--accent-strong); font-weight: 600; }
+      .lesson-item .num {
+        flex-shrink: 0;
+        width: 20px; height: 20px;
+        border-radius: 999px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        font-size: 11px;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--muted);
+        margin-top: 1px;
+      }
+      .lesson-item.active .num { background: var(--accent); color: #fff; border-color: var(--accent); }
+      .lesson-item .txt { font-size: 13px; }
+      /* Main content */
+      .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+      .breadcrumb {
+        display: flex; align-items: center; gap: 8px;
+        padding: 14px 24px;
+        border-bottom: 1px solid var(--border);
+        font-size: 13px; color: var(--muted);
+        background: #fff;
+      }
+      .breadcrumb .home { color: var(--accent-strong); font-weight: 600; }
+      .breadcrumb .sep { color: #c4cabf; }
+      .breadcrumb .current { color: var(--text); font-weight: 600; }
+      .content { flex: 1; overflow-y: auto; padding: 24px; }
+      .content-inner { max-width: 960px; margin: 0 auto; }
+      .lesson-module { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-strong); }
+      .lesson-title { font-size: 22px; font-weight: 800; margin-top: 4px; margin-bottom: 16px; }
+      .video-card {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,.04);
+      }
+      .video-card iframe { display: block; width: 100%; height: 68vh; border: 0; }
+      .lesson-desc { margin-top: 18px; color: var(--muted); font-size: 15px; line-height: 1.6; }
+      .preview-flag {
+        background: #fff8e6;
+        border: 1px solid #f5e2a8;
+        color: #8a6d1a;
+        font-size: 12px;
+        padding: 8px 24px;
+        text-align: center;
+        font-weight: 600;
+      }
+      @media (max-width: 720px) {
+        .sidebar { display: none; }
+        .video-card iframe { height: 52vh; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="rail" aria-label="Primary">
+      <div class="logo" title="LimeChat">L</div>
+      <div class="nav-icon active" title="Academy" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </div>
+    </nav>
+
+    <aside class="sidebar">
+      <div class="sidebar-head">
+        <h2>Bot Builder Academy</h2>
+        <p>LimeChat Learning Academy</p>
+      </div>
+      <div class="lesson-list" id="lessonList"></div>
+    </aside>
+
+    <main class="main">
+      <div class="preview-flag">SAMPLE PREVIEW — static snapshot for team review (not the live app)</div>
+      <div class="breadcrumb">
+        <span class="home">Academy</span>
+        <span class="sep">/</span>
+        <span id="bcModule">Limechat Overview</span>
+        <span class="sep">/</span>
+        <span class="current" id="bcTitle">LimeChat Platform Overview</span>
+      </div>
+      <div class="content">
+        <div class="content-inner">
+          <p class="lesson-module" id="lessonModule">LIMECHAT OVERVIEW</p>
+          <h1 class="lesson-title" id="lessonTitle">LimeChat Platform Overview</h1>
+          <div class="video-card">
+            <iframe id="videoFrame" src="" title="Lesson video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <p class="lesson-desc" id="lessonDesc"></p>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Embedded lesson data (snapshot of the Google Sheet at export time)
+      var CSV = `Module,Order,Title,VideoURL,Description
+Limechat Overview,1,LimeChat Platform Overview,https://limechat.clueso.io/share/85ae30ba-e24b-45e1-b114-17911272b253,
+,2,LimeChat Bot Overview,https://limechat.clueso.io/share/23c6a7af-40ca-4607-a2ba-c29d7afa58fe,
+ Platform Overview & Setup,1,"Account creation process, platform creds, where to go on the platform",https://limechat.clueso.io/share/fde25440-4157-4ba6-9a3a-ada20c3d8134,
+,2,Agentic Studio Overview,https://limechat.clueso.io/share/5061683d-bcb3-46df-bd09-d5b176c20de7,"Meet LimeChat Agentic Studio — an advanced, no-code agent builder platform built for teams ready to design, customize, and manage smart AI agents."
+,3,Helpdesk/CRM video,https://limechat.clueso.io/share/918039cd-fd8d-4a1e-a26d-86220117163c,
+,4,Bot Analytics Overview Guide,https://limechat.clueso.io/share/f19c170b-9c47-4ffa-9b19-4576fbd71171,
+Initialising a new bot ,1,Initialize a New Bot from the UI,https://limechat.clueso.io/share/d56b0603-2885-4c4a-8abb-3b73d81c029d,"Get started with LimeChat Agentic Studio by creating and initializing a new click-based bot for your account, from landing on the platform to activating your bot and managing inbox mappings."
+,2,"Multi-Bot Support, Flow & Agent Movement, Inbox Mapping",https://limechat.clueso.io/share/60741ab8-f915-42ee-b865-f7da810bdee6,"LimeChat Agentic Studio lets you create, duplicate, and manage multiple bots, each mapped to the right inbox — all from one streamlined workspace."
+Platform Guide,1,Flow Canvas Navigation Guide,https://limechat.clueso.io/share/b8eb4947-294c-4861-9933-8b164f70912c,"Agentic Studio's flow canvas is your workspace for building powerful, flexible conversational flows, where you design, connect, and manage automation visually."
+,2,How to create flows using flow templates,https://limechat.clueso.io/share/b681cc1e-df47-43c9-a8bf-db1ae40e1d50,
+,3,How to create Agents & Tasks using templates,https://limechat.clueso.io/share/589108ea-bb6d-4773-96a5-8073468b39b1,"LimeChat Agentic Studio offers a powerful suite of tools and settings to help you create, manage, and fine-tune your bots and workflows."
+,4,"Publishing, triggers and widget testing",https://limechat.clueso.io/share/c25b04ad-2aff-4f91-9a8a-4b1f3b185c87,
+,5,Settings Section,https://limechat.clueso.io/share/b110c6c8-46a5-47fc-be07-7d4780c1f5d1,
+Message & Utility Nodes,1,Text and Media Message Node,https://limechat.clueso.io/share/6e797b07-0f87-4cb1-930d-7b3af7ef23ff,"Unlock powerful customer interactions with Text and Media Message Nodes, which let you send personalized messages, quick replies, and rich media."
+,2,List Message Node,https://limechat.clueso.io/share/448ed3a1-69bb-4bb0-a5be-4fa0ce3663d0,List Message nodes let you guide users with organized lists of options right in a WhatsApp chat — especially when you need to offer more than three actions.
+,3,Apply Tag Node & Time Delay Node,https://limechat.clueso.io/share/62dc9af6-6e44-43bf-b6c2-d9d57ec339bf,Master conversation flow in LimeChat Agentic Studio with two powerful features: the Apply Tag node and the Time Delay node.
+,4,Dynamic Product Card,https://limechat.clueso.io/share/24fdaf2a-7ed7-46ba-8d21-24e3b6d1bd39,"Product Card Nodes make shopping inside chat seamless and visually engaging, with two ways to display products: Dynamic and Static Product Card Nodes."
+Triggers & Flow Control Nodes,1,Keyword Trigger,https://limechat.clueso.io/share/d347520c-05b0-4dc8-af77-9d567ce4dd1e,LimeChat Agentic Studio gives you flexible controls to automate engagement. The Trigger node listens for specific events or messages and launches your flows at just the right time.
+,2,Image Trigger,https://limechat.clueso.io/share/2e6be28c-b8b8-4204-9be0-5e92141e0491,"Image-based flows let you automate smart actions when users send images, PDFs, audio files, or other media to your bot."
+,3,Trigger Another Flow,https://limechat.clueso.io/share/d9851c31-f1f1-4d04-b626-fcc4c018ae1f,"Breaking complex automations into smaller, reusable subflows keeps projects organized. The Trigger Another Flow node connects different flows seamlessly."
+Reminder setup,1, How to send reminders,https://limechat.clueso.io/share/f3671f2a-0a03-4a28-af18-3f5c505e780b,Keeping users engaged is hard when they go inactive in your flows. Drop-off reminders nudge users back at just the right moment to boost completion.
+Data & Logic Nodes,1,Conditional Node,https://limechat.clueso.io/share/bf675a7e-355e-471b-9ff0-bd1f111a3c2d,The Conditional node empowers your chatbot flows to follow different paths based on user data or system variables.
+,2,API Node,https://limechat.clueso.io/share/726c7643-7f80-492a-8558-dab9f1e4b0ed,"The flexible API node connects your conversational workflows with external or internal services, enriching automation with live data and real-time actions."
+,3,User Input Node (Part 1),https://limechat.clueso.io/share/33c2234d-9835-49ff-a50d-8713ea1cf788,"Collect important user details — like names and emails — by setting up the user input node, including creating variables and validation."
+,4,User Input Node (Part 2) — Entity Extraction & Escalation,https://limechat.clueso.io/share/70c3a54e-fa81-45ed-8d02-c6cd926a197d,"User input nodes are the backbone of adaptable automation. They let you gather and validate details from every user, enabling personalized support and seamless journeys."
+,5,Code Node,https://limechat.clueso.io/share/23a81983-fc76-45c8-85a5-06e7d49e499c,
+,6,Code Node- Calling External Api's,https://web.clueso.io/guide/3878ae11-ef62-4f9d-b736-3a17d4581e7e,
+ Actions & Support Nodes,1,Agent Handoff,https://limechat.clueso.io/share/5c030b62-85fd-4f32-90b6-0de0cc5d9cc4,Seamlessly transfer conversations from your bot to human agents exactly when customers need personalized support.
+,2,CSAT,https://limechat.clueso.io/share/5cef5ee0-655c-4e11-9a7b-c556a0348e10,Customer Satisfaction Score (CSAT) reflects how happy customers are with your support. Collecting it after conversations lets you gauge quality and improve.
+,3,Capture Value Node,https://limechat.clueso.io/share/618223fb-69ff-4e2e-9d99-af362fd10a74,
+,4,Prompt Node,https://limechat.clueso.io/share/3ff0ac9a-ecd6-495f-b9ae-0cd24a9074f6,
+Function Nodes,1,Fetch Customer Details,https://limechat.clueso.io/share/14847618-0e74-40d6-94d1-f8069d274323,
+,2,G-Sheet Node,https://limechat.clueso.io/share/5cfa74f5-9f37-4c53-aa63-7dcaa31a836a,
+D2C Support Nodes,1,Product Recommender Task + Product Search,https://limechat.clueso.io/share/ee6394f8-25c1-4a1c-9204-7bb533a87326,Agentic Studio by LimeChat is an AI-powered platform designed to transform how businesses guide customers during the buying journey.
+,2,Sales Agent,https://limechat.clueso.io/share/7c9f8e81-6638-475d-bd19-aa24d85c1117,Sales Explorer empowers you to create a tailored shopping experience by guiding users through questions and recommending products based on their preferences.
+,3,Product Quiz + PDP Flow,https://limechat.clueso.io/share/273360db-be86-4bb3-ba2e-041847e5d87c,LimeChat's Agentic Studio helps you build interactive product recommendation experiences so customers easily discover the right items in your store.
+,4,Cart & Variant Management,https://limechat.clueso.io/share/23aae8da-aaec-45d9-ae29-4665f7f7aa44,Limechat Agentic Studio is an all-in-one platform that empowers e-commerce businesses to create conversational shopping journeys.
+,5,Checkout Node and Flow,https://limechat.clueso.io/share/70f73290-b1ed-4b64-a8a3-f51b8c12636b,"Agentic Studio gives you powerful tools to create smooth, automated checkout experiences — guiding buyers to a product page, sharing secure payment links, and more."
+,6,Improving Product Recommendations & Customizations,https://limechat.clueso.io/share/df585c0c-6560-433e-903b-402bc733ed22,"Great product recommendations boost satisfaction and sales. Agentic Studio helps you control, enrich, and optimize what products users see."
+,7,Track Order,https://limechat.clueso.io/share/b98dd2e1-d649-430f-8c55-4f1987e623c1,
+,8,Cancel Order,https://limechat.clueso.io/share/952506ef-16de-4997-a54b-c75ce0afaf02,
+Live bot walkthrough (Click based),1,Walkthrough of live Click-Based Bot( trost),https://limechat.clueso.io/share/f7d17fcc-6a74-4724-b3c4-c7342c810671,
+,2,Walkthrough of a Live Bot to understand flows for click based bots ( innovist),https://limechat.clueso.io/share/9acfbde4-9987-4c49-a871-eab341f47fb4,
+Taking bot Live,1,Mapping Bots to Inboxes,https://limechat.clueso.io/share/98290519-63e4-4c63-b25b-6fd84407d309,
+ AI Agent Creation Platform,1,AI Agent Creation Platform,https://limechat.clueso.io/share/fc0b1f2a-6216-4ee7-aa51-847145331956,"LimeChat Agentic Studio empowers teams to build, customize, and manage AI agents for specific business workflows including sales, support, and order management."
+,2,Creating Agents and Tasks,https://limechat.clueso.io/share/3f703988-4d5b-4beb-b389-4fd1735daf47,"Design AI-driven agents that handle customer support, automate common workflows, and provide fast, reliable answers to your users."
+,3,Creating Flows and Configuring in Tasks,https://limechat.clueso.io/share/26dae395-98bf-423b-93bc-8eab4420c332,"This guide walks you through building a new workflow, assigning task access, and managing your flows, with clearly numbered steps for beginners."
+,4,Generating AI Responses for Agents,https://limechat.clueso.io/share/a8b1ce96-9940-445c-9375-c133b7003eec,"Streamline how users receive AI-powered answers by configuring custom message flows — building smart, end-user-facing automations."
+,5,Bot Brain and Agentic Workforce Management,https://limechat.clueso.io/share/97916593-ea0e-448c-9d71-328b41feba71,Manage customer queries with a smart delegation and escalation framework that routes every question to the right virtual agent.
+Live bot walkthrough( Agentic),1,Walkthrough of Live Agentic Bot( innovist),https://limechat.clueso.io/share/5678b83e-82b3-4686-80c4-780746106557,
+,2,Complex bot overview ( Runwal Enterprises),https://limechat.clueso.io/share/1471ec49-eec5-46ad-a093-452aaa57d3c0,
+Knowledge Base Overview,1,Knowledge Base Management Overview,https://limechat.clueso.io/share/ec72e9e0-5e9d-4e8d-ac37-5d806c146fdf,
+Test Benches,1,AI Evaluations (Test Benches) Overview,https://limechat.clueso.io/share/3528f2db-c5bc-43d6-b842-6c26c8607369,
+,2,AI Evaluations (Testing Report) Overview,https://limechat.clueso.io/share/a671967c-fc14-46f8-996e-98ab7f86194d,
+,3,"Test Benches Auditing reports: sampling conversations, and finding RCA",https://limechat.clueso.io/share/f4c2ba1e-364e-4272-a2bd-5532b4624a66,
+Mcp tools Overview,1,Debugging Mcp,https://limechat.clueso.io/share/a31e0bdb-6ebe-4f10-a599-2f902c21d828,
+,2,Audit Mcp,https://limechat.clueso.io/share/1ffdc15a-df6d-41ef-9a74-0c830a5eed6a,
+,3,Knowledge Base Management MCP,https://limechat.clueso.io/share/0ee14855-e070-462e-b9ed-e6165eda5e9b,
+,4,Bot Reviewer MCP,https://limechat.clueso.io/share/b0ef2fe7-7df5-4fb1-84fc-ffa41acaf5e6,`;
+
+      // Minimal CSV parser that respects quoted fields
+      function parseCSV(text) {
+        var rows = [];
+        var row = [];
+        var cur = "";
+        var inQuotes = false;
+        for (var i = 0; i < text.length; i++) {
+          var ch = text[i];
+          if (ch === '"') {
+            if (inQuotes && text[i + 1] === '"') { cur += '"'; i++; }
+            else inQuotes = !inQuotes;
+          } else if (ch === "," && !inQuotes) {
+            row.push(cur); cur = "";
+          } else if ((ch === "\n" || ch === "\r") && !inQuotes) {
+            if (ch === "\r" && text[i + 1] === "\n") i++;
+            row.push(cur); rows.push(row); row = []; cur = "";
+          } else {
+            cur += ch;
+          }
+        }
+        if (cur.length || row.length) { row.push(cur); rows.push(row); }
+        return rows;
+      }
+
+      var rows = parseCSV(CSV).slice(1).filter(function (r) { return r.length >= 4 && r[2] && r[3]; });
+      var lastModule = "";
+      var lessons = rows.map(function (r, idx) {
+        var mod = (r[0] || "").trim();
+        if (mod) lastModule = mod;
+        return {
+          id: idx,
+          module: lastModule,
+          order: (r[1] || "").trim(),
+          title: (r[2] || "").trim(),
+          videoUrl: (r[3] || "").trim(),
+          description: (r[4] || "").trim(),
+        };
+      });
+
+      // Build sidebar grouped by module
+      var listEl = document.getElementById("lessonList");
+      var currentModule = null;
+      lessons.forEach(function (lesson) {
+        if (lesson.module !== currentModule) {
+          currentModule = lesson.module;
+          var mt = document.createElement("div");
+          mt.className = "module-title";
+          mt.textContent = lesson.module;
+          listEl.appendChild(mt);
+        }
+        var btn = document.createElement("button");
+        btn.className = "lesson-item";
+        btn.dataset.id = lesson.id;
+        btn.innerHTML =
+          '<span class="num">' + (lesson.order || "•") + "</span>" +
+          '<span class="txt">' + lesson.title.replace(/</g, "&lt;") + "</span>";
+        btn.addEventListener("click", function () { selectLesson(lesson.id); });
+        listEl.appendChild(btn);
+      });
+
+      function selectLesson(id) {
+        var lesson = lessons[id];
+        if (!lesson) return;
+        document.getElementById("videoFrame").src = lesson.videoUrl;
+        document.getElementById("lessonTitle").textContent = lesson.title;
+        document.getElementById("lessonModule").textContent = lesson.module.toUpperCase();
+        document.getElementById("bcModule").textContent = lesson.module;
+        document.getElementById("bcTitle").textContent = lesson.title;
+        var desc = document.getElementById("lessonDesc");
+        desc.textContent = lesson.description || "";
+        desc.style.display = lesson.description ? "block" : "none";
+        document.querySelectorAll(".lesson-item").forEach(function (el) {
+          el.classList.toggle("active", el.dataset.id === String(id));
+        });
+      }
+
+      if (lessons.length) selectLesson(0);
+    </script>
+  </body>
+</html>
