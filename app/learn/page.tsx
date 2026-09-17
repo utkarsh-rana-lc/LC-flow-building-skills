@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, PlayCircle, Search, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AppLayout } from "@/components/layout/app-layout";
+import { LessonInfographic } from "@/components/learn/lesson-infographic";
 
 interface Lesson {
   module: string;
@@ -298,6 +299,9 @@ export default function LearnPage() {
                     title={selectedLesson.title}
                   />
                 </div>
+
+                {/* Dummy infographic — placeholder for founder review */}
+                <LessonInfographic />
               </div>
             ) : (
               <div className="flex flex-1 items-center justify-center">
