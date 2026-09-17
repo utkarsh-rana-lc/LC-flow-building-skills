@@ -165,7 +165,7 @@ export default function LearnPage() {
           {/* Mobile toggle */}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-[#5F6661] hover:bg-[#F8F9F7] lg:hidden"
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-[#5F6661] hover:bg-[#F8F9F7] md:hidden"
           >
             {sidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
@@ -175,7 +175,7 @@ export default function LearnPage() {
           {/* Sidebar */}
           <aside
             className={cn(
-              "absolute inset-y-14 left-0 z-40 flex w-72 flex-col border-r border-[#E2E6E1] bg-white transition-transform duration-200 lg:relative lg:inset-y-0 lg:translate-x-0",
+              "absolute inset-y-14 left-0 z-40 flex w-72 flex-col border-r border-[#E2E6E1] bg-white transition-transform duration-200 md:relative md:inset-y-0 md:translate-x-0",
               sidebarOpen ? "translate-x-0" : "-translate-x-full"
             )}
           >
@@ -277,7 +277,7 @@ export default function LearnPage() {
           {sidebarOpen && (
             <button
               type="button"
-              className="fixed inset-0 z-30 bg-black/20 lg:hidden"
+              className="fixed inset-0 z-30 bg-black/20 md:hidden"
               onClick={() => setSidebarOpen(false)}
               aria-label="Close sidebar"
             />
