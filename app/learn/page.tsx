@@ -15,6 +15,14 @@ interface Lesson {
   description: string;
 }
 
+function videoId(videoUrl: string): string {
+  return new URL(videoUrl).pathname.split("/").filter(Boolean).at(-1) || "";
+}
+
+function requestedVideoId(): string | null {
+  return new URLSearchParams(window.location.search).get("video");
+}
+
 function parseCSV(csvText: string): Lesson[] {
   const lines = csvText.split("\n");
   const lessons: Lesson[] = [];
@@ -85,8 +93,15 @@ export default function LearnPage() {
         const parsedLessons = parseCSV(csvText);
         setLessons(parsedLessons);
 
-        const firstWithVideo = parsedLessons.find((l) => l.videoUrl);
-        if (firstWithVideo) setSelectedLesson(firstWithVideo);
+        const requestedId = requestedVideoId();
+        const requestedLesson = parsedLessons.find(
+          (lesson) => lesson.videoUrl && videoId(lesson.videoUrl) === requestedId
+        );
+        setSelectedLesson(
+          requestedId
+            ? requestedLesson || null
+            : parsedLessons.find((lesson) => lesson.videoUrl) || null
+        );
       } catch (error) {
         console.error("Failed to fetch lessons:", error);
       } finally {
@@ -96,6 +111,19 @@ export default function LearnPage() {
 
     fetchLessons();
   }, []);
+
+  useEffect(() => {
+    function selectFromUrl() {
+      const requestedId = requestedVideoId();
+      setSelectedLesson(
+        requestedId
+          ? lessons.find((lesson) => lesson.videoUrl && videoId(lesson.videoUrl) === requestedId) || null
+          : lessons.find((lesson) => lesson.videoUrl) || null
+      );
+    }
+    window.addEventListener("popstate", selectFromUrl);
+    return () => window.removeEventListener("popstate", selectFromUrl);
+  }, [lessons]);
 
   // Filter lessons by search term across title, module, stage, description
   const filteredLessons = useMemo(() => {
@@ -224,9 +252,7 @@ export default function LearnPage() {
                     </p>
                     <div className="space-y-0.5">
                       {groupedByModule[moduleName].map((lesson) => {
-                        const isActive =
-                          selectedLesson?.title === lesson.title &&
-                          selectedLesson?.module === lesson.module;
+                        const isActive = selectedLesson?.videoUrl === lesson.videoUrl;
                         const hasVideo = !!lesson.videoUrl;
 
                         if (!hasVideo) {
@@ -248,6 +274,9 @@ export default function LearnPage() {
                           <button
                             key={`${lesson.module}-${lesson.order}-${lesson.title}`}
                             onClick={() => {
+                              const url = new URL(window.location.href);
+                              url.searchParams.set("video", videoId(lesson.videoUrl));
+                              window.history.pushState(null, "", url);
                               setSelectedLesson(lesson);
                               setSidebarOpen(false);
                             }}
@@ -316,9 +345,13 @@ export default function LearnPage() {
                   <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#EAF4DD]">
                     <PlayCircle className="h-8 w-8 text-[#7FB13D]" />
                   </div>
-                  <p className="font-medium text-[#2F3431]">Select a lesson to begin</p>
+                  <p className="font-medium text-[#2F3431]">
+                    {requestedVideoId() ? "Video unavailable" : "Select a lesson to begin"}
+                  </p>
                   <p className="mt-1 text-sm text-[#9AA19B]">
-                    Choose from the sidebar to start watching
+                    {requestedVideoId()
+                      ? "This video is no longer in the Learning Academy. Choose another from the sidebar."
+                      : "Choose from the sidebar to start watching"}
                   </p>
                 </div>
               </div>
