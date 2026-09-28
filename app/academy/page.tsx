@@ -2,20 +2,22 @@
 
 import Link from "next/link";
 import { AppLayout } from "@/components/layout/app-layout";
+import { useFullscreen } from "@/hooks/use-fullscreen";
 
 export default function AcademyPage() {
+  const fullscreen = useFullscreen();
   return (
     <AppLayout>
       <div className="min-h-screen bg-white">
 
         {/* Breadcrumb */}
-        <header className="border-b border-[#E8EDE6] bg-white px-8 py-4">
+        {!fullscreen && <header className="border-b border-[#E8EDE6] bg-white px-8 py-4">
           <nav className="text-sm">
             <span className="font-medium text-[#7FB13D]">Academy</span>
             <span className="mx-2 text-[#D4D9D4]">/</span>
             <span className="text-[#5F6661]">Home</span>
           </nav>
-        </header>
+        </header>}
 
         <div className="mx-auto max-w-3xl px-8 py-10">
 

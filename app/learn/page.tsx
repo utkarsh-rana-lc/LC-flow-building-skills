@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, PlayCircle, Search, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AppLayout } from "@/components/layout/app-layout";
+import { useFullscreen } from "@/hooks/use-fullscreen";
 
 interface Lesson {
   module: string;
@@ -67,6 +68,7 @@ function parseCSV(csvText: string): Lesson[] {
 }
 
 export default function LearnPage() {
+  const fullscreen = useFullscreen();
   const [lessons, setLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
@@ -139,7 +141,7 @@ export default function LearnPage() {
     <AppLayout>
       <div className="flex h-screen flex-col">
         {/* Top bar */}
-        <header className="flex h-14 flex-shrink-0 items-center justify-between border-b border-[#E2E6E1] bg-white px-5">
+        {!fullscreen && <header className="flex h-14 flex-shrink-0 items-center justify-between border-b border-[#E2E6E1] bg-white px-5">
           <div className="flex items-center gap-3">
             <Link
               href="/dashboard"
@@ -169,7 +171,7 @@ export default function LearnPage() {
           >
             {sidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
           </button>
-        </header>
+        </header>}
 
         <div className="flex flex-1 overflow-hidden">
           {/* Sidebar */}

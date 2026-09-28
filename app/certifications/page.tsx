@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { AppLayout } from "@/components/layout/app-layout";
+import { useFullscreen } from "@/hooks/use-fullscreen";
 import {
   certificationLinks,
   certificationLevels,
@@ -76,11 +77,12 @@ const whatYoullDo = [
 ];
 
 export default function CertificationsPage() {
+  const fullscreen = useFullscreen();
   return (
     <AppLayout>
       <div className="min-h-screen bg-white">
         {/* Breadcrumb */}
-        <header className="sticky top-0 z-10 border-b border-[#E8EDE6] bg-white/95 backdrop-blur">
+        {!fullscreen && <header className="sticky top-0 z-10 border-b border-[#E8EDE6] bg-white/95 backdrop-blur">
           <div className="flex h-14 items-center px-8">
             <nav className="flex items-center gap-2 text-sm">
               <Link
@@ -93,7 +95,7 @@ export default function CertificationsPage() {
               <span className="text-[#2F3431]">Certification Programme</span>
             </nav>
           </div>
-        </header>
+        </header>}
 
         <div className="mx-auto max-w-3xl px-8 py-10">
           {/* Title + Subtitle */}
@@ -245,7 +247,8 @@ export default function CertificationsPage() {
               {certificationLevels.map((level) => (
                 <article
                   key={level.id}
-                  className="group rounded-2xl border border-[#E8EDE6] bg-white p-6 transition-all hover:border-[#DCE8D2] hover:shadow-md"
+                  id={level.id}
+                  className="group scroll-mt-20 rounded-2xl border border-[#E8EDE6] bg-white p-6 transition-all hover:border-[#DCE8D2] hover:shadow-md"
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-[#EAF4DD] text-base font-bold text-[#5E8E2E]">
