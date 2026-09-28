@@ -286,11 +286,11 @@ export default function LearnPage() {
           )}
 
           {/* Main content */}
-          <main className="flex flex-1 flex-col overflow-hidden bg-[#F8F9F7]">
+          <main className="flex min-w-0 flex-1 flex-col overflow-hidden bg-[#F8F9F7]">
             {selectedLesson ? (
-              <div className="flex-1 overflow-y-auto p-4 lg:p-6">
+              <div className="flex min-h-0 flex-1 flex-col overflow-y-auto p-4 lg:p-6">
                 {/* Lesson title above the video */}
-                <div className="mx-auto mb-4 w-full max-w-5xl">
+                <div className="mb-4 w-full shrink-0">
                   <p className="text-xs font-semibold uppercase tracking-wider text-[#7FB13D]">
                     {selectedLesson.module}
                   </p>
@@ -298,12 +298,12 @@ export default function LearnPage() {
                     {selectedLesson.title}
                   </h1>
                 </div>
-                {/* Video — centered in a max-width area so the embed stays balanced */}
-                <div className="mx-auto w-full max-w-5xl overflow-hidden rounded-xl border border-[#E2E6E1] bg-white shadow-sm">
+                {/* Fill the available lesson pane while keeping the title visible. */}
+                <div className="min-h-[20rem] w-full flex-1 overflow-hidden rounded-xl border border-[#E2E6E1] bg-white shadow-sm">
                   <iframe
                     key={selectedLesson.videoUrl}
                     src={selectedLesson.videoUrl}
-                    className="h-full min-h-[70vh] w-full border-0"
+                    className="h-full w-full border-0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     title={selectedLesson.title}
