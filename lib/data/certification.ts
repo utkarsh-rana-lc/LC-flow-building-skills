@@ -4,18 +4,18 @@
 
 export const certificationLinks = {
   notionGuideUrl:
-    "https://app.notion.com/p/limechat/LimeChat-Certification-Programme-3d6d792cd6c7803ea5c7f919892c0db9",
+    "https://limechat.notion.site/LimeChat-Certification-Programme-3d6d792cd6c7803ea5c7f919892c0db9",
 
   l0NotionUrl:
-    "https://app.notion.com/p/limechat/LEVEL-0-3d7d792cd6c7800ab9aadc1e0ba1eae3",
+    "https://limechat.notion.site/LEVEL-0-3d7d792cd6c7800ab9aadc1e0ba1eae3",
   l1NotionUrl:
-    "https://app.notion.com/p/limechat/LEVEL-1-3d7d792cd6c780eba4b9f7187504a205",
+    "https://limechat.notion.site/LEVEL-1-3d7d792cd6c780eba4b9f7187504a205",
   l2NotionUrl:
-    "https://app.notion.com/p/limechat/LEVEL-2-3d7d792cd6c780cd9c12fc1fa8d804e1",
+    "https://limechat.notion.site/LEVEL-2-3d7d792cd6c780cd9c12fc1fa8d804e1",
   l3NotionUrl:
-    "https://app.notion.com/p/limechat/LEVEL-3-3d7d792cd6c780639e02d5761607e559",
+    "https://limechat.notion.site/LEVEL-3-3d7d792cd6c780639e02d5761607e559",
   l4NotionUrl:
-    "https://app.notion.com/p/limechat/Level-4-3d7d792cd6c78013a850da0dbb2b3d85",
+    "https://limechat.notion.site/Level-4-3d7d792cd6c78013a850da0dbb2b3d85",
 
   l0SubmissionUrl:
     "https://docs.google.com/forms/d/1TcRqYdU0sOwcjR64c8c00J2JRf0mu4osGpkzchtoOjc/viewform",
