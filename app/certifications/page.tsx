@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { AppLayout } from "@/components/layout/app-layout";
+import { EmbeddedBackBar } from "@/components/layout/embedded-back-bar";
 import { useFullscreen } from "@/hooks/use-fullscreen";
 import {
   certificationLinks,
@@ -82,7 +83,7 @@ export default function CertificationsPage() {
     <AppLayout>
       <div className="min-h-screen bg-white">
         {/* Breadcrumb */}
-        {!fullscreen && <header className="sticky top-0 z-10 border-b border-[#E8EDE6] bg-white/95 backdrop-blur">
+        {fullscreen ? <EmbeddedBackBar href="/academy" label="Back to Academy home" /> : <header className="sticky top-0 z-10 border-b border-[#E8EDE6] bg-white/95 backdrop-blur">
           <div className="flex h-14 items-center px-8">
             <nav className="flex items-center gap-2 text-sm">
               <Link

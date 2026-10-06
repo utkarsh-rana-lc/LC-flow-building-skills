@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { AppLayout } from "@/components/layout/app-layout";
+import { EmbeddedBackBar } from "@/components/layout/embedded-back-bar";
 import { useFullscreen } from "@/hooks/use-fullscreen";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -45,11 +46,11 @@ export default function HelpPage() {
     <AppLayout>
       <div className="min-h-screen">
         {/* Header */}
-        {!fullscreen && (
+        {fullscreen ? <EmbeddedBackBar href="/academy" label="Back to Academy home" /> : (
           <header className="sticky top-0 z-10 border-b border-[#E2E6E1] bg-white">
             <div className="flex h-14 items-center px-6">
               <nav className="flex items-center gap-1.5 text-sm">
-                <Link href="/dashboard" className="font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]">Academy</Link>
+                <Link href="/academy" className="font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]">Academy</Link>
                 <span className="text-[#9AA19B]">/</span>
                 <span className="text-[#2F3431]">Help</span>
               </nav>

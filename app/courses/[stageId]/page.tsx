@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { AppLayout } from "@/components/layout/app-layout";
+import { EmbeddedBackBar } from "@/components/layout/embedded-back-bar";
 import { useFullscreen } from "@/hooks/use-fullscreen";
 import { stages } from "@/lib/data/courses";
 import { cn } from "@/lib/utils";
@@ -22,6 +23,7 @@ export default function StagePage() {
   if (!stage) {
     return (
       <AppLayout>
+        {fullscreen && <EmbeddedBackBar href="/courses" label="Back to Courses" />}
         <div className="flex items-center justify-center py-20">
           <p className="text-[#5F6661]">Stage not found</p>
         </div>
@@ -38,11 +40,11 @@ export default function StagePage() {
     <AppLayout>
       <div className="min-h-screen">
         {/* Header */}
-        {!fullscreen && (
+        {fullscreen ? <EmbeddedBackBar href="/courses" label="Back to Courses" /> : (
           <header className="sticky top-0 z-10 border-b border-[#E2E6E1] bg-white">
             <div className="flex h-14 items-center px-6">
               <nav className="flex items-center gap-1.5 text-sm">
-                <Link href="/dashboard" className="font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]">Academy</Link>
+                <Link href="/academy" className="font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]">Academy</Link>
                 <span className="text-[#9AA19B]">/</span>
                 <Link href="/courses" className="font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]">Courses</Link>
                 <span className="text-[#9AA19B]">/</span>

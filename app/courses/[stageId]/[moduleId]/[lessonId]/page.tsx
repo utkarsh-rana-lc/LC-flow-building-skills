@@ -21,6 +21,7 @@ import {
 import { stages } from "@/lib/data/courses";
 import { cn } from "@/lib/utils";
 import { useFullscreen } from "@/hooks/use-fullscreen";
+import { EmbeddedBackBar } from "@/components/layout/embedded-back-bar";
 
 const lessonTypeIcons: Record<string, React.ElementType> = {
   video: PlayCircle,
@@ -44,8 +45,11 @@ export default function LessonPage() {
 
   if (!stage) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-[#5F6661]">Stage not found</p>
+      <div className="flex min-h-screen flex-col">
+        {fullscreen && <EmbeddedBackBar href="/courses" label="Back to Courses" />}
+        <div className="flex flex-1 items-center justify-center">
+          <p className="text-[#5F6661]">Stage not found</p>
+        </div>
       </div>
     );
   }
@@ -73,8 +77,11 @@ export default function LessonPage() {
 
   if (!currentLesson || !currentModule || !currentSection) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p className="text-[#5F6661]">Lesson not found</p>
+      <div className="flex min-h-screen flex-col">
+        {fullscreen && <EmbeddedBackBar href={`/courses/${stageId}`} label={`Back to Stage ${stageNumber}`} />}
+        <div className="flex flex-1 items-center justify-center">
+          <p className="text-[#5F6661]">Lesson not found</p>
+        </div>
       </div>
     );
   }
@@ -119,6 +126,12 @@ export default function LessonPage() {
 
   return (
     <div className="min-h-screen">
+      {fullscreen && (
+        <EmbeddedBackBar
+          href={`/courses/${stageId}`}
+          label={`Back to Stage ${stageNumber}`}
+        />
+      )}
       {/* Mobile Sidebar Toggle */}
       {!fullscreen && (
         <button

@@ -39,8 +39,9 @@ function readFlag(): boolean {
 
 /**
  * Reads the `fullscreen` URL flag.
- * When `?fullscreen=true` (or `1`/`yes`) is present, the app chrome
- * (slim navbar + page top bars) is hidden. Once activated, the state is
+ * When `?fullscreen=true` (or `1`/`yes`) is present, the app's global
+ * navigation and breadcrumbs are hidden. Subpages retain a compact back bar.
+ * Once activated, the state is
  * persisted in sessionStorage so it survives internal navigation where
  * links don't carry the query string. Pass `?fullscreen=false` to exit.
  *

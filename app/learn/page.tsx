@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, PlayCircle, Search, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AppLayout } from "@/components/layout/app-layout";
+import { EmbeddedBackBar } from "@/components/layout/embedded-back-bar";
 import { useFullscreen } from "@/hooks/use-fullscreen";
 
 interface Lesson {
@@ -155,24 +156,40 @@ export default function LearnPage() {
   if (loading) {
     return (
       <AppLayout>
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="text-center">
-            <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-[#7FB13D] border-t-transparent" />
-            <p className="text-sm text-[#5F6661]">Loading lessons...</p>
+        <div className="flex min-h-screen flex-col">
+          {fullscreen && <EmbeddedBackBar href="/academy" label="Back to Academy home" />}
+          <div className="flex flex-1 items-center justify-center">
+            <div className="text-center">
+              <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-[#7FB13D] border-t-transparent" />
+              <p className="text-sm text-[#5F6661]">Loading lessons...</p>
+            </div>
           </div>
         </div>
       </AppLayout>
     );
   }
 
+  const lessonListToggle = (
+    <button
+      type="button"
+      onClick={() => setSidebarOpen(!sidebarOpen)}
+      aria-label={sidebarOpen ? "Close lesson list" : "Open lesson list"}
+      aria-expanded={sidebarOpen}
+      aria-controls="academy-lesson-list"
+      className="flex h-10 w-10 items-center justify-center rounded-lg text-[#5F6661] hover:bg-[#F8F9F7] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#5E8E2E] md:hidden"
+    >
+      {sidebarOpen ? <X aria-hidden="true" className="h-4 w-4" /> : <Menu aria-hidden="true" className="h-4 w-4" />}
+    </button>
+  );
+
   return (
     <AppLayout>
       <div className="flex h-screen flex-col">
         {/* Top bar */}
-        {!fullscreen && <header className="flex h-14 flex-shrink-0 items-center justify-between border-b border-[#E2E6E1] bg-white px-5">
+        {fullscreen ? <EmbeddedBackBar href="/academy" label="Back to Academy home">{lessonListToggle}</EmbeddedBackBar> : <header className="flex h-14 flex-shrink-0 items-center justify-between border-b border-[#E2E6E1] bg-white px-5">
           <div className="flex items-center gap-3">
             <Link
-              href="/dashboard"
+              href="/academy"
               className="flex items-center gap-1.5 text-sm font-medium text-[#7FB13D] transition-colors hover:text-[#5E8E2E]"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -193,19 +210,15 @@ export default function LearnPage() {
           </div>
 
           {/* Mobile toggle */}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg text-[#5F6661] hover:bg-[#F8F9F7] md:hidden"
-          >
-            {sidebarOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-          </button>
+          {lessonListToggle}
         </header>}
 
-        <div className="flex flex-1 overflow-hidden">
+        <div className="relative flex flex-1 overflow-hidden">
           {/* Sidebar */}
           <aside
+            id="academy-lesson-list"
             className={cn(
-              "absolute inset-y-14 left-0 z-40 flex w-72 flex-col border-r border-[#E2E6E1] bg-white transition-transform duration-200 md:relative md:inset-y-0 md:translate-x-0",
+              "absolute inset-y-0 left-0 z-40 flex w-72 flex-col border-r border-[#E2E6E1] bg-white transition-transform duration-200 md:relative md:translate-x-0",
               sidebarOpen ? "translate-x-0" : "-translate-x-full"
             )}
           >
